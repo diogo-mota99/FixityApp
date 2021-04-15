@@ -162,6 +162,9 @@
                     android:layout_weight="0.5"
                     android:fontFamily="@font/comfortaa_bold"
                     android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="registerClick"
                     android:text="@string/register_now"
                     android:textColor="#0000FF" />
             </TableLayout>

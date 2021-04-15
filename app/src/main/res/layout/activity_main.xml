@@ -123,10 +123,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:clickable="true"
+                android:onClick="registerClick"
                 android:layout_marginLeft="5dp"
                 android:fontFamily="@font/comfortaa_bold"
                 android:text="@string/register_now"
-                android:textColor="#0000FF" />
+                android:textColor="#0000FF"
+                android:focusable="true" />
         </LinearLayout>
 
         <ImageView
