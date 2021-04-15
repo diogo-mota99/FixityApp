@@ -36,4 +36,7 @@
     <string name="already_have_account">Já possui uma conta?</string>
     <string name="confirm_password">Password de confirmação</string>
     <string name="name">Nome</string>
+    <string name="empty_password">A password não pode estar em branco!</string>
+    <string name="username_not_exist">Username não existe!</string>
+    <string name="password_not_exist">Password errada!</string>
 </resources>
