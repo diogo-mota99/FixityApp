@@ -2,7 +2,6 @@ package ipvc.estg.fixity.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import androidx.room.Query
 import ipvc.estg.fixity.entities.Note
 
 @Dao

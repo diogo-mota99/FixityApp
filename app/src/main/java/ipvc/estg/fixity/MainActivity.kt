@@ -1,11 +1,10 @@
 package ipvc.estg.fixity
 
+//import ipvc.estg.fixity.viewModel.NoteListActivity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-//import ipvc.estg.fixity.viewModel.NoteListActivity
-import ipvc.estg.fixity.R
 import ipvc.estg.fixity.viewModel.NoteListActivity
 
 class MainActivity : AppCompatActivity() {

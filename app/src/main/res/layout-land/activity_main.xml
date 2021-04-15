@@ -40,17 +40,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
+        android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="1"
-        android:baselineAligned="false">
+        android:weightSum="1">
 
         <TableLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.6"
             android:gravity="center"
             android:orientation="vertical"
-            android:layout_weight="0.6"
             android:weightSum="1">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -58,6 +58,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_weight="0.5"
                 android:hint="@string/username"
                 android:textColorHint="@color/myBlack"
                 app:boxCornerRadiusBottomEnd="30dp"
@@ -67,8 +68,7 @@
                 app:boxStrokeColor="@color/myBlack"
                 app:hintTextColor="@color/myBlack"
                 app:startIconDrawable="@drawable/ic_outline_person_24"
-                app:startIconTint="@color/myBlack"
-                android:layout_weight="0.5">
+                app:startIconTint="@color/myBlack">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -82,6 +82,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_weight="0.5"
                 android:hint="@string/password"
                 android:textColorHint="@color/myBlack"
                 app:boxCornerRadiusBottomEnd="30dp"
@@ -93,8 +94,7 @@
                 app:passwordToggleEnabled="true"
                 app:passwordToggleTint="@color/myBlack"
                 app:startIconDrawable="@drawable/ic_outline_lock_24"
-                app:startIconTint="@color/myBlack"
-                android:layout_weight="0.5">
+                app:startIconTint="@color/myBlack">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -110,14 +110,14 @@
             android:layout_height="match_parent"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_weight="0.4"
             android:gravity="center"
             android:orientation="vertical"
-            android:layout_weight="0.4"
             android:weightSum="1">
 
             <LinearLayout
-                android:layout_height="0dp"
                 android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="0.5"
                 android:gravity="center">
 
@@ -141,29 +141,29 @@
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_weight="0.5"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:layout_weight="0.5"
                 android:weightSum="1">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:fontFamily="@font/comfortaa_bold"
-                    android:text="@string/don_t_have_an_account"
-                    android:textColor="@color/myBlack"
                     android:layout_weight="0.5"
-                    android:gravity="center" />
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:gravity="center"
+                    android:text="@string/don_t_have_an_account"
+                    android:textColor="@color/myBlack" />
 
                 <TextView
                     android:id="@+id/btn_register"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:fontFamily="@font/comfortaa_bold"
-                    android:text="@string/register_now"
-                    android:textColor="#0000FF"
                     android:layout_weight="0.5"
-                    android:gravity="center"/>
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:gravity="center"
+                    android:text="@string/register_now"
+                    android:textColor="#0000FF" />
             </TableLayout>
         </TableLayout>
     </LinearLayout>
@@ -172,10 +172,10 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1.25"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/btn_notes"

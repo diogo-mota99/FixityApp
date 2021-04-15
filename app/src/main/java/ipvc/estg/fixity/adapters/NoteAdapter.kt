@@ -9,16 +9,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import ipvc.estg.fixity.R
 import ipvc.estg.fixity.entities.Note
 import ipvc.estg.fixity.viewModel.NoteViewModel
-import ipvc.estg.fixity.R
 import java.text.SimpleDateFormat
 
 
 class NoteAdapter(
     context: Context,
     onClickListener: View.OnClickListener,
-    //onDeletePressed: View.OnClickListener,
+    onDeletePressed: View.OnClickListener,
     onEditPressed: View.OnClickListener
 ) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
@@ -28,7 +28,7 @@ class NoteAdapter(
     private lateinit var noteViewModel: NoteViewModel
     private var clickListener: View.OnClickListener = onClickListener
     private var editClickListener: View.OnClickListener = onEditPressed
-    //private var deleteClickListener: View.OnClickListener = onDeletePressed
+    private var deleteClickListener: View.OnClickListener = onDeletePressed
 
 
     inner class NoteViewHolder(itemView: View) :
@@ -70,7 +70,7 @@ class NoteAdapter(
         holder.btnEditNote.tag = current
         holder.itemView.setOnClickListener(clickListener)
         holder.btnEditNote.setOnClickListener(editClickListener)
-        //holder.btnDeleteNote.setOnClickListener(deleteClickListener)*/
+        holder.btnDeleteNote.setOnClickListener(deleteClickListener)
     }
 
     internal fun setNotes(notes: List<Note>) {

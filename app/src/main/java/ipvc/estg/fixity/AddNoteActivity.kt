@@ -56,7 +56,11 @@ class AddNoteActivity : AppCompatActivity() {
 
             when {
                 titleNoteView.text.isNullOrEmpty() -> {
-                    Toast.makeText(applicationContext, R.string.note_title_required, Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        applicationContext,
+                        R.string.note_title_required,
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                     //setResult(RESULT_CANCELED, replyIntent)
                 }

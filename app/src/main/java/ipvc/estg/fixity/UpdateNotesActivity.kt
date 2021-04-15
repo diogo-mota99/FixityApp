@@ -68,7 +68,11 @@ class UpdateNotesActivity : AppCompatActivity() {
         updateBtn.setOnClickListener {
             when {
                 titleNoteUpdate.text.isNullOrEmpty() -> {
-                    Toast.makeText(applicationContext, R.string.note_title_required, Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        applicationContext,
+                        R.string.note_title_required,
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                     //setResult(RESULT_CANCELED, replyIntent)
                 }
@@ -90,7 +94,7 @@ class UpdateNotesActivity : AppCompatActivity() {
 
         }
 
-        cancelBtn.setOnClickListener{
+        cancelBtn.setOnClickListener {
             finish()
         }
 
