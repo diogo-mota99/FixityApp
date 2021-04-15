@@ -17,9 +17,9 @@ import java.text.SimpleDateFormat
 
 class NoteAdapter(
     context: Context,
-    onClickListener: View.OnClickListener/*,
-    onDeletePressed: View.OnClickListener,
-    onEditPressed: View.OnClickListener*/
+    onClickListener: View.OnClickListener,
+    //onDeletePressed: View.OnClickListener,
+    onEditPressed: View.OnClickListener
 ) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
@@ -27,7 +27,7 @@ class NoteAdapter(
     private var notes = emptyList<Note>()
     private lateinit var noteViewModel: NoteViewModel
     private var clickListener: View.OnClickListener = onClickListener
-    //private var editClickListener: View.OnClickListener = onEditPressed
+    private var editClickListener: View.OnClickListener = onEditPressed
     //private var deleteClickListener: View.OnClickListener = onDeletePressed
 
 
@@ -69,7 +69,7 @@ class NoteAdapter(
         holder.btnDeleteNote.tag = current
         holder.btnEditNote.tag = current
         holder.itemView.setOnClickListener(clickListener)
-        //holder.btnEditNote.setOnClickListener(editClickListener)
+        holder.btnEditNote.setOnClickListener(editClickListener)
         //holder.btnDeleteNote.setOnClickListener(deleteClickListener)*/
     }
 

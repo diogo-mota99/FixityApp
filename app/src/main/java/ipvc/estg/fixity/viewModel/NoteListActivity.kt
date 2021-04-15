@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import ipvc.estg.fixity.UpdateNotesActivity
 import ipvc.estg.fixity.AddNoteActivity
 import ipvc.estg.fixity.R
 import ipvc.estg.fixity.ShowNoteDetails
@@ -50,8 +51,8 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
         //recycler view
         val recyclerView = findViewById<RecyclerView>(R.id.notes_recycler)
         val adapter = NoteAdapter(
-            this, onClickListener = this/*, onDeletePressed =
-            DeleteBtnClick(), onEditPressed = EditBtnClick()*/
+            this, onClickListener = this, /*onDeletePressed =
+            DeleteBtnClick(),*/ onEditPressed = EditBtnClick()
         )
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
@@ -125,7 +126,7 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
         }
     }*/
 
-    /*inner class EditBtnClick : View.OnClickListener {
+    inner class EditBtnClick : View.OnClickListener {
         override fun onClick(v: View?) {
             noteModel = v?.tag as Note
             val intent = Intent(this@NoteListActivity, UpdateNotesActivity::class.java)
@@ -134,7 +135,7 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
             intent.putExtra(EXTRA_ITEM_ID, noteModel.id)
             startActivity(intent)
         }
-    }*/
+    }
 
     override fun onBackPressed() {
         super.onBackPressed()

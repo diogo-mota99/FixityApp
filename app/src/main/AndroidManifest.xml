@@ -19,6 +19,7 @@
         <activity android:name=".viewModel.NoteListActivity" />
         <activity android:name=".AddNoteActivity" />
         <activity android:name=".ShowNoteDetails" />
+        <activity android:name=".UpdateNotesActivity" />
     </application>
 
 </manifest>
