@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome" translatable="false">Bem-vindo!</string>
+    <string name="username">Nome de utilizador</string>
+    <string name="register_now"><u>Registar agora!</u></string>
+    <string name="don_t_have_an_account">Não possui uma conta?</string>
+    <string name="notes">Notas</string>
+    <string name="note_title">Notas</string>
+    <string name="titleAddNote">Título</string>
+    <string name="enter_note_here">Insira a nota aqui</string>
+    <string name="empty_fields">Os campos não podem estar vazios!</string>
+    <string name="titleActivityAddNote">Adicionar Nota</string>
+    <string name="delete_confirmation">Deseja eliminar esta nota?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="note_deleted">A nota foi eliminada!</string>
+    <string name="success_update_note">Nota atualizada com sucesso!</string>
+    <string name="edit_notes_title">Editar Nota</string>
+    <string name="success_delete_note">Nota eliminada com sucesso!</string>
+    <string name="note_details">Detalhes da Nota</string>
+    <string name="note_title_required">Título obrigatório!</string>
+    <string name="note_required">Nota obrigatória!</string>
+</resources>
