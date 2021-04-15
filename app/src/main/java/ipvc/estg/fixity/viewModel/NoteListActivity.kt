@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ipvc.estg.fixity.AddNoteActivity
 import ipvc.estg.fixity.R
+import ipvc.estg.fixity.ShowNoteDetails
 import ipvc.estg.fixity.adapters.NoteAdapter
 import ipvc.estg.fixity.entities.Note
 import java.util.*
@@ -49,7 +50,7 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
         //recycler view
         val recyclerView = findViewById<RecyclerView>(R.id.notes_recycler)
         val adapter = NoteAdapter(
-            this/*, onClickListener = this, onDeletePressed =
+            this, onClickListener = this/*, onDeletePressed =
             DeleteBtnClick(), onEditPressed = EditBtnClick()*/
         )
         recyclerView.adapter = adapter
@@ -98,12 +99,12 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        /*noteModel = v?.tag as Note
+        noteModel = v?.tag as Note
         val intent = Intent(this@NoteListActivity, ShowNoteDetails::class.java)
         val bundle = Bundle()
         bundle.putSerializable(EXTRA_SELECTED_NOTE, noteModel)
         intent.putExtras(bundle)
-        startActivity(intent)*/
+        startActivity(intent)
     }
 
 

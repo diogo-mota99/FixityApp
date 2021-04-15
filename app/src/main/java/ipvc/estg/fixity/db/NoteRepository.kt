@@ -1,7 +1,7 @@
 package ipvc.estg.fixity.db
 
 import androidx.lifecycle.LiveData
-import estg.ipvc.fixity.dao.NoteDao
+import ipvc.estg.fixity.dao.NoteDao
 import ipvc.estg.fixity.entities.Note
 
 class NoteRepository(private val noteDao: NoteDao) {

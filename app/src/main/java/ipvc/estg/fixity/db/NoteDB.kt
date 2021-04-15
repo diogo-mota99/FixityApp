@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import estg.ipvc.fixity.dao.NoteDao
+import ipvc.estg.fixity.dao.NoteDao
 import ipvc.estg.fixity.entities.Note
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
