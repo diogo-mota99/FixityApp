@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu>
+    <!-- <item
+         android:id="@+id/action_"
+         android:icon="@drawable/ic_clear"
+         app:showAsAction="always" />
+     <item
+         android:id="@+id/action_copy"
+         android:title="Copy"
+         app:showAsAction="always|withText"
+         android:icon="@drawable/ic_file_copy" />
+     <item
+         android:id="@+id/action_paste"
+         android:title="Paste"
+         app:showAsAction="ifRoom"
+         android:icon="@drawable/ic_edit" />
+     <item
+         android:id="@+id/action_new"
+         android:title="New"
+         app:showAsAction="never"
+         android:icon="@drawable/ic_create_new_folder" />-->
+</menu>
