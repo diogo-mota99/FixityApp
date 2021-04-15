@@ -4,16 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import ipvc.estg.fixity.UpdateNotesActivity
 import ipvc.estg.fixity.AddNoteActivity
 import ipvc.estg.fixity.R
 import ipvc.estg.fixity.ShowNoteDetails
+import ipvc.estg.fixity.UpdateNotesActivity
 import ipvc.estg.fixity.adapters.NoteAdapter
 import ipvc.estg.fixity.entities.Note
 import java.util.*
@@ -51,8 +53,8 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
         //recycler view
         val recyclerView = findViewById<RecyclerView>(R.id.notes_recycler)
         val adapter = NoteAdapter(
-            this, onClickListener = this, /*onDeletePressed =
-            DeleteBtnClick(),*/ onEditPressed = EditBtnClick()
+            this, onClickListener = this, onDeletePressed =
+            DeleteBtnClick(), onEditPressed = EditBtnClick()
         )
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
@@ -109,7 +111,7 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    /*inner class DeleteBtnClick : View.OnClickListener {
+    inner class DeleteBtnClick : View.OnClickListener {
         override fun onClick(v: View?) {
             noteModel = v?.tag as Note
             val builder = AlertDialog.Builder(this@NoteListActivity)
@@ -124,7 +126,7 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
             builder.setMessage(R.string.delete_confirmation)
             builder.create().show()
         }
-    }*/
+    }
 
     inner class EditBtnClick : View.OnClickListener {
         override fun onClick(v: View?) {

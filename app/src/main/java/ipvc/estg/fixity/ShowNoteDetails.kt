@@ -5,8 +5,8 @@ import android.text.TextUtils
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import ipvc.estg.fixity.viewModel.NoteListActivity
 import ipvc.estg.fixity.entities.Note
+import ipvc.estg.fixity.viewModel.NoteListActivity
 
 class ShowNoteDetails : AppCompatActivity() {
 
