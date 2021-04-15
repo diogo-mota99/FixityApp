@@ -4,8 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-//import estg.ipvc.fixity.viewModel.NoteListActivity
+//import ipvc.estg.fixity.viewModel.NoteListActivity
 import ipvc.estg.fixity.R
+import ipvc.estg.fixity.viewModel.NoteListActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,9 +15,9 @@ class MainActivity : AppCompatActivity() {
 
         val button = findViewById<ImageView>(R.id.btn_notes)
 
-        //button.setOnClickListener {
-            //val intent = Intent(this@MainActivity, NoteListActivity::class.java)
-            //startActivity(intent)
-        //}
+        button.setOnClickListener {
+            val intent = Intent(this@MainActivity, NoteListActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
