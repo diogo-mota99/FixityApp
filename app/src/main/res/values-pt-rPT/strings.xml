@@ -19,21 +19,4 @@
     <string name="note_details">Detalhes da Nota</string>
     <string name="note_title_required">Título obrigatório!</string>
     <string name="note_required">Nota obrigatória!</string>
-    <string name="name_required">Nome obrigatório!</string>
-    <string name="username_required">Username obrigatório!</string>
-    <string name="not_allow_spaces_username">Username não pode conter espaços!</string>
-    <string name="email_required">Email obrigatório!</string>
-    <string name="email_invalid">Email inválido!</string>
-    <string name="pwd_invalid">A password deve conter entre 8 e 30 caracteres!</string>
-    <string name="not_allow_spaces_password">Passowrd não pode conter espaços!</string>
-    <string name="different_pwd">As passwords não correspondem!</string>
-    <string name="username_exists">Username já existe!</string>
-    <string name="email_exists">Email já existe!</string>
-    <string name="success_register">Utilizador registado com sucesso!</string>
-    <string name="error_register">ERRO!</string>
-    <string name="register_title">Registo</string>
-    <string name="sign_in"><u>Login</u></string>
-    <string name="already_have_account">Já possui uma conta?</string>
-    <string name="confirm_password">Password de confirmação</string>
-    <string name="name">Nome</string>
 </resources>
