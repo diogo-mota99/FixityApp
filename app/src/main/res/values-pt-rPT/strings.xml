@@ -39,4 +39,5 @@
     <string name="empty_password">A password não pode estar em branco!</string>
     <string name="username_not_exist">Username não existe!</string>
     <string name="password_not_exist">Password errada!</string>
+    <string name="remember_me">Lembrar dados</string>
 </resources>

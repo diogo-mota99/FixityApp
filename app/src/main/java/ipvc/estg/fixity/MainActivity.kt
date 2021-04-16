@@ -1,20 +1,21 @@
 package ipvc.estg.fixity
 
 //import ipvc.estg.fixity.viewModel.NoteListActivity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import ipvc.estg.fixity.api.EndPoints
 import ipvc.estg.fixity.api.OutputPost
 import ipvc.estg.fixity.api.ServiceBuilder
+import ipvc.estg.fixity.api.User
 import ipvc.estg.fixity.viewModel.NoteListActivity
 import retrofit2.Call
 import retrofit2.Response
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +31,28 @@ class MainActivity : AppCompatActivity() {
 
         val button = findViewById<ImageView>(R.id.btn_notes)
         val buttonLogin = findViewById<Button>(R.id.btn_login)
+        val checkBoxLogin = findViewById<CheckBox>(R.id.checkBoxLogin)
+
+        //CALL SHARED PREFERENCES FILE
+        val sharedPrefs: SharedPreferences =
+            getSharedPreferences(getString(R.string.pref_file_key), Context.MODE_PRIVATE)
+
+        //VERIFY IF IS LOGGED IN
+        val isLoggedIn = sharedPrefs.getBoolean(getString(R.string.pref_is_user_login), false)
+
+        //GET USERNAME SAVED ON SHAREDPREFERENCES
+        val usernameSaved = sharedPrefs.getString(getString(R.string.pref_username), "")
+
+        //GET USER ID SAVED ON SHAREDPREFERENCES
+        val userId = sharedPrefs.getInt(getString(R.string.pref_user_id), 0)
+
+        if (isLoggedIn) {
+            Toast.makeText(
+                this@MainActivity,
+                "WELCOME $usernameSaved | ESTADO: $isLoggedIn | ID_USER: $userId",
+                Toast.LENGTH_LONG
+            ).show()
+        }
 
         button.setOnClickListener {
             val intent = Intent(this@MainActivity, NoteListActivity::class.java)
@@ -96,8 +119,53 @@ class MainActivity : AppCompatActivity() {
                                         Toast.LENGTH_LONG
                                     ).show()
 
-                                    //Open MAP ACTIVITY
 
+                                    val request2 =
+                                        ServiceBuilder.buildService(EndPoints::class.java)
+                                    val getUserById = request2.getUsersByUsername(
+                                        txt_username.text.toString()
+                                    )
+
+                                    getUserById.enqueue(object : retrofit2.Callback<User> {
+                                        override fun onResponse(
+                                            call: Call<User>,
+                                            response: Response<User>
+                                        ) {
+                                            if (response.isSuccessful) {
+
+                                                val user: User = response.body()!!
+
+                                                if (checkBoxLogin.isChecked) {
+
+                                                    //SAVE DATA ON SHAREDPREFERENCES
+                                                    val editor = sharedPrefs.edit()
+                                                    editor.putBoolean(
+                                                        getString(R.string.pref_is_user_login),
+                                                        true
+                                                    )
+                                                    editor.putString(
+                                                        getString(R.string.pref_username),
+                                                        txt_username.text.toString()
+                                                    )
+                                                    editor.putInt(
+                                                        getString(R.string.pref_user_id),
+                                                        user.id
+                                                    )
+                                                    editor.apply()
+                                                }
+                                            }
+                                        }
+
+                                        override fun onFailure(call: Call<User>, t: Throwable) {
+                                            Toast.makeText(
+                                                this@MainActivity,
+                                                R.string.error_register,
+                                                Toast.LENGTH_SHORT
+                                            )
+                                                .show()
+                                        }
+
+                                    })
                                 }
                             }
                         }
@@ -111,10 +179,10 @@ class MainActivity : AppCompatActivity() {
                                 .show()
                         }
 
-                    })
+
+                    }
+                    )
                 }
-
-
             }
         }
     }

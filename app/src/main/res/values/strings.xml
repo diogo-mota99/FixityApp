@@ -48,5 +48,10 @@
     <string name="empty_password">Password can\'t be empty!</string>
     <string name="username_not_exist">Username doesn\'t exist!</string>
     <string name="password_not_exist">Wrong password!</string>
+    <string name="remember_me">Remember me</string>
+    <string name="pref_file_key" translatable="false">ipvc.estg.fixity.User</string>
+    <string name="pref_is_user_login" translatable="false">isUserLogin</string>
+    <string name="pref_username" translatable="false">username</string>
+    <string name="pref_user_id" translatable="false">id_user</string>
 
 </resources>
