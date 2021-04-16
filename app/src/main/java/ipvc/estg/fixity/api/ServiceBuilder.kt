@@ -9,12 +9,12 @@ object ServiceBuilder {
     private val client = OkHttpClient.Builder().build();
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://fixity-app.000webhostapp.com/myslim/")
+        .baseUrl("https://fixity.pt/myslim/")
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()
 
-    fun<T> buildService(service: Class<T>) : T{
+    fun <T> buildService(service: Class<T>): T {
         return retrofit.create(service)
     }
 }

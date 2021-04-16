@@ -38,7 +38,6 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/username"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,6 +53,7 @@
             app:startIconTint="@color/myBlack">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/comfortaa_bold"
@@ -62,7 +62,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,7 +79,19 @@
             app:startIconDrawable="@drawable/ic_outline_lock_24"
             app:startIconTint="@color/myBlack">
 
+            <CheckBox
+                android:id="@+id/checkBoxLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:checked="false"
+                android:gravity="center"
+                android:text="@string/remember_me"
+                android:textColor="@color/black" />
+
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/comfortaa_bold"
@@ -93,7 +104,7 @@
             android:layout_width="150dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:drawableEnd="@drawable/ic_round_arrow_forward_24"
             android:drawableRight="@drawable/ic_round_arrow_forward_24"
             android:fontFamily="@font/comfortaa_bold"
@@ -123,13 +134,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:clickable="true"
-                android:onClick="registerClick"
                 android:layout_marginLeft="5dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:fontFamily="@font/comfortaa_bold"
+                android:onClick="registerClick"
                 android:text="@string/register_now"
-                android:textColor="#0000FF"
-                android:focusable="true" />
+                android:textColor="#0000FF" />
         </LinearLayout>
 
         <ImageView

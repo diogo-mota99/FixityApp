@@ -21,4 +21,11 @@ interface EndPoints {
         @Field("email") email: String?,
         @Field("password") password: String?
     ): Call<OutputPost>
+
+    @FormUrlEncoded
+    @POST("fixity/users/login")
+    fun postUserLogin(
+        @Field("username") username: String?,
+        @Field("password") password: String?
+    ): Call<OutputPost>
 }

@@ -54,7 +54,6 @@
             android:weightSum="1">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/username"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -71,6 +70,7 @@
                 app:startIconTint="@color/myBlack">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/comfortaa_bold"
@@ -78,7 +78,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/password"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -97,6 +96,7 @@
                 app:startIconTint="@color/myBlack">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/comfortaa_bold"
@@ -160,10 +160,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="0.5"
-                    android:fontFamily="@font/comfortaa_bold"
-                    android:gravity="center"
                     android:clickable="true"
                     android:focusable="true"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:gravity="center"
                     android:onClick="registerClick"
                     android:text="@string/register_now"
                     android:textColor="#0000FF" />
@@ -173,19 +173,41 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:layout_weight="1.25"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_weight="1.25">
 
         <ImageView
             android:id="@+id/btn_notes"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
             android:contentDescription="@string/notes"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icon_notes" />
+
+        <TableLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.4">
+
+            <CheckBox
+                android:id="@+id/checkBoxLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:checked="false"
+                android:gravity="center"
+                android:text="@string/remember_me"
+                android:textColor="@color/black" />
+
+        </TableLayout>
+
     </LinearLayout>
 
 </TableLayout>

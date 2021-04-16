@@ -13,7 +13,7 @@ import ipvc.estg.fixity.api.ServiceBuilder
 import retrofit2.Call
 import retrofit2.Response
 
-class  RegisterActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
 
     private lateinit var txt_name: EditText
     private lateinit var txt_username: EditText
@@ -150,7 +150,11 @@ class  RegisterActivity : AppCompatActivity() {
                         }
 
                         override fun onFailure(call: Call<OutputPost>, t: Throwable) {
-                            Toast.makeText(this@RegisterActivity, R.string.error_register, Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                this@RegisterActivity,
+                                R.string.error_register,
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                         }
                     })
