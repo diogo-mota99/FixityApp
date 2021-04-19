@@ -1,6 +1,7 @@
 package ipvc.estg.fixity
 
 import android.os.Bundle
+import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -9,8 +10,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import ipvc.estg.fixity.api.Report
 import ipvc.estg.fixity.api.EndPoints
+import ipvc.estg.fixity.api.Report
 import ipvc.estg.fixity.api.ServiceBuilder
 import retrofit2.Call
 import retrofit2.Callback
@@ -54,7 +55,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             override fun onFailure(call: Call<List<Report>>, t: Throwable) {
-                Toast.makeText(this@MapsActivity, R.string.error_register, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MapsActivity, R.string.error_register, Toast.LENGTH_SHORT)
+                    .show()
             }
         })
     }
@@ -66,4 +68,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val viana = LatLng(41.6946, -8.83016)
         mMap.moveCamera(CameraUpdateFactory.newLatLng(viana))
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
+        menu.setGroupVisible(R.id.menuGroup, true)
+        return true
+    }
+
 }

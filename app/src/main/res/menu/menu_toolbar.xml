@@ -2,24 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:icon="@drawable/ic_baseline_edit_note_24"
-        android:title="@string/notes"
-        app:showAsAction="always"
-        android:visible="false"/>
-    <item
-        android:icon="@drawable/ic_baseline_person_24"
-        android:title="@string/account"
-        app:showAsAction="always"
-        android:visible="false"/>
-    <item
-        android:icon="@drawable/ic_baseline_exit_to_app_24"
-        android:title="@string/logout"
-        app:showAsAction="always"
-        android:visible="false"/>
-    <item
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="@string/settings"
-        app:showAsAction="always"
-        android:visible="false"/>
+    <group
+        android:id="@+id/menuGroup"
+        android:visible="false">
+        <item
+            android:id="@+id/notesAction"
+            android:icon="@drawable/ic_baseline_edit_note_24"
+            android:title="@string/notes"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/accountAction"
+            android:icon="@drawable/ic_baseline_person_24"
+            android:title="@string/account"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/logoutAction"
+            android:icon="@drawable/ic_baseline_exit_to_app_24"
+            android:title="@string/logout"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/settingAction"
+            android:icon="@drawable/ic_baseline_settings_24"
+            android:title="@string/settings"
+            app:showAsAction="ifRoom" />
+    </group>
 </menu>
