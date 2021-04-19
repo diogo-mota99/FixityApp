@@ -40,4 +40,7 @@
     <string name="username_not_exist">Username não existe!</string>
     <string name="password_not_exist">Password errada!</string>
     <string name="remember_me">Lembrar dados</string>
+    <string name="reported_problems">Problemas Reportados</string>
+    <string name="account">Conta</string>
+    <string name="settings">Definições</string>
 </resources>

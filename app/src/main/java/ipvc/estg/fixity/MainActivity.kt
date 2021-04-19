@@ -47,11 +47,9 @@ class MainActivity : AppCompatActivity() {
         val userId = sharedPrefs.getInt(getString(R.string.pref_user_id), 0)
 
         if (isLoggedIn) {
-            Toast.makeText(
-                this@MainActivity,
-                "WELCOME $usernameSaved | ESTADO: $isLoggedIn | ID_USER: $userId",
-                Toast.LENGTH_LONG
-            ).show()
+            val intent = Intent(this@MainActivity, MapsActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         button.setOnClickListener {
@@ -113,12 +111,6 @@ class MainActivity : AppCompatActivity() {
                                         }
                                     }
                                 } else {
-                                    Toast.makeText(
-                                        this@MainActivity,
-                                        "Welcome " + txt_username.text.toString(),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-
 
                                     val request2 =
                                         ServiceBuilder.buildService(EndPoints::class.java)
@@ -153,6 +145,13 @@ class MainActivity : AppCompatActivity() {
                                                     )
                                                     editor.apply()
                                                 }
+
+                                                val intent = Intent(
+                                                    this@MainActivity,
+                                                    MapsActivity::class.java
+                                                )
+                                                startActivity(intent)
+                                                finish()
                                             }
                                         }
 
