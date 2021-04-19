@@ -53,5 +53,6 @@
     <string name="pref_is_user_login" translatable="false">isUserLogin</string>
     <string name="pref_username" translatable="false">username</string>
     <string name="pref_user_id" translatable="false">id_user</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
