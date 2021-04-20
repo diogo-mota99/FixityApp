@@ -57,7 +57,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     Toast.makeText(this@MapsActivity, "$userID", Toast.LENGTH_SHORT).show()
 
-                    /*for (report in reports) {
+                    for (report in reports) {
 
                         position = LatLng(report.latitude, report.longitude)
 
@@ -74,7 +74,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                                 MarkerOptions().position(position).title(report.problem)
                             )
                         }
-                    }*/
+                    }
                 }
 
             }
