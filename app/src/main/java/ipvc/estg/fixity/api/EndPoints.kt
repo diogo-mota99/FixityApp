@@ -30,6 +30,6 @@ interface EndPoints {
     ): Call<OutputPost>
 
     //GET COORDINATES
-    @GET("fixity/coordinates")
-    fun getCoordinates() : Call<List<Report>>
+    @GET("fixity/reports")
+    fun getCoordinates(): Call<List<Report>>
 }
