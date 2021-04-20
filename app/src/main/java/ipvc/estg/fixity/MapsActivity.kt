@@ -1,18 +1,24 @@
 package ipvc.estg.fixity
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import ipvc.estg.fixity.api.EndPoints
 import ipvc.estg.fixity.api.Report
 import ipvc.estg.fixity.api.ServiceBuilder
+import ipvc.estg.fixity.viewModel.NoteListActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,15 +47,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val call = request.getCoordinates()
         var position: LatLng
 
+        val intent: Bundle? = intent.extras
+        val userID = intent?.getInt(MainActivity.EXTRA_USERID)
+
         call.enqueue(object : Callback<List<Report>> {
             override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
                 if (response.isSuccessful) {
                     reports = response.body()!!
 
-                    for (report in reports) {
+                    Toast.makeText(this@MapsActivity, "$userID", Toast.LENGTH_SHORT).show()
+
+                    /*for (report in reports) {
+
                         position = LatLng(report.latitude, report.longitude)
-                        mMap.addMarker(MarkerOptions().position(position).title("teste"))
-                    }
+
+                        if (report.user_id == userID) {
+                            mMap.addMarker(
+                                MarkerOptions().position(position).title(report.problem).icon(
+                                    BitmapDescriptorFactory.defaultMarker(
+                                        BitmapDescriptorFactory.HUE_AZURE
+                                    )
+                                )
+                            )
+                        } else {
+                            mMap.addMarker(
+                                MarkerOptions().position(position).title(report.problem)
+                            )
+                        }
+                    }*/
                 }
 
             }
@@ -74,6 +99,37 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         menuInflater.inflate(R.menu.menu_toolbar, menu)
         menu.setGroupVisible(R.id.menuGroup, true)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.notesAction -> {
+                val intent = Intent(this, NoteListActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.accountAction -> {
+                Toast.makeText(applicationContext, "click on account", Toast.LENGTH_LONG).show()
+                return true
+            }
+            R.id.logoutAction -> {
+                //CALL SHARED PREFERENCES FILE
+                val sharedPrefs: SharedPreferences =
+                    getSharedPreferences(getString(R.string.pref_file_key), Context.MODE_PRIVATE)
+
+                val editor = sharedPrefs.edit()
+                editor.clear().apply()
+
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.settingAction -> {
+                Toast.makeText(applicationContext, "click on settings", Toast.LENGTH_LONG).show()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 }

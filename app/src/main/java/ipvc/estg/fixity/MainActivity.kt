@@ -47,7 +47,12 @@ class MainActivity : AppCompatActivity() {
         val userId = sharedPrefs.getInt(getString(R.string.pref_user_id), 0)
 
         if (isLoggedIn) {
-            val intent = Intent(this@MainActivity, MapsActivity::class.java)
+            Toast.makeText(this@MainActivity, "$userId", Toast.LENGTH_SHORT).show()
+            val intent = Intent(
+                this@MainActivity,
+                MapsActivity::class.java
+            )
+            intent.putExtra(EXTRA_USERID, userId);
             startActivity(intent)
             finish()
         }
@@ -150,6 +155,7 @@ class MainActivity : AppCompatActivity() {
                                                     this@MainActivity,
                                                     MapsActivity::class.java
                                                 )
+                                                intent.putExtra(EXTRA_USERID, user.id);
                                                 startActivity(intent)
                                                 finish()
                                             }
@@ -190,4 +196,9 @@ class MainActivity : AppCompatActivity() {
         val intentRegister = Intent(this@MainActivity, RegisterActivity::class.java)
         startActivity(intentRegister)
     }
+
+    companion object {
+        const val EXTRA_USERID = "com.estg.fixity.messages.USERID"
+    }
+
 }
