@@ -47,11 +47,14 @@ class MainActivity : AppCompatActivity() {
         val userId = sharedPrefs.getInt(getString(R.string.pref_user_id), 0)
 
         if (isLoggedIn) {
-            Toast.makeText(
+            Toast.makeText(this@MainActivity, "$userId", Toast.LENGTH_SHORT).show()
+            val intent = Intent(
                 this@MainActivity,
-                "WELCOME $usernameSaved | ESTADO: $isLoggedIn | ID_USER: $userId",
-                Toast.LENGTH_LONG
-            ).show()
+                MapsActivity::class.java
+            )
+            intent.putExtra(EXTRA_USERID, userId);
+            startActivity(intent)
+            finish()
         }
 
         button.setOnClickListener {
@@ -113,12 +116,6 @@ class MainActivity : AppCompatActivity() {
                                         }
                                     }
                                 } else {
-                                    Toast.makeText(
-                                        this@MainActivity,
-                                        "Welcome " + txt_username.text.toString(),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-
 
                                     val request2 =
                                         ServiceBuilder.buildService(EndPoints::class.java)
@@ -153,6 +150,14 @@ class MainActivity : AppCompatActivity() {
                                                     )
                                                     editor.apply()
                                                 }
+
+                                                val intent = Intent(
+                                                    this@MainActivity,
+                                                    MapsActivity::class.java
+                                                )
+                                                intent.putExtra(EXTRA_USERID, user.id);
+                                                startActivity(intent)
+                                                finish()
                                             }
                                         }
 
@@ -191,4 +196,9 @@ class MainActivity : AppCompatActivity() {
         val intentRegister = Intent(this@MainActivity, RegisterActivity::class.java)
         startActivity(intentRegister)
     }
+
+    companion object {
+        const val EXTRA_USERID = "com.estg.fixity.messages.USERID"
+    }
+
 }

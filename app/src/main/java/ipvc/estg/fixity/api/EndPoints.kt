@@ -28,4 +28,8 @@ interface EndPoints {
         @Field("username") username: String?,
         @Field("password") password: String?
     ): Call<OutputPost>
+
+    //GET COORDINATES
+    @GET("fixity/reports")
+    fun getCoordinates(): Call<List<Report>>
 }
