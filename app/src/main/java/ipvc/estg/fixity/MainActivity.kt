@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
         val userId = sharedPrefs.getInt(getString(R.string.pref_user_id), 0)
 
         if (isLoggedIn) {
-            Toast.makeText(this@MainActivity, "$userId", Toast.LENGTH_SHORT).show()
             val intent = Intent(
                 this@MainActivity,
                 MapsActivity::class.java

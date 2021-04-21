@@ -6,6 +6,9 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -15,6 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ipvc.estg.fixity.api.EndPoints
 import ipvc.estg.fixity.api.Report
 import ipvc.estg.fixity.api.ServiceBuilder
@@ -29,6 +33,32 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var reports: List<Report>
 
+    //ANIMATIONS
+    private val rotateOpen: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            this,
+            R.anim.rotate_open_anim
+        )
+    }
+    private val rotateClose: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            this,
+            R.anim.rotate_close_anim
+        )
+    }
+    private val fromBottom: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            this,
+            R.anim.from_bottom_anim
+        )
+    }
+    private val toBottom: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            this,
+            R.anim.to_bottom_anim
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mapa)
@@ -42,6 +72,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         // calling the action bar
         supportActionBar?.setTitle(R.string.reported_problems)
 
+        //FAB BUTTONS
+        var clicked = false
+        val buttonReport = findViewById<FloatingActionButton>(R.id.button_reportProblem)
+        val buttonShowOpt = findViewById<FloatingActionButton>(R.id.button_menuMap)
+
 
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getCoordinates()
@@ -54,9 +89,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
                 if (response.isSuccessful) {
                     reports = response.body()!!
-
-                    Toast.makeText(this@MapsActivity, "$userID", Toast.LENGTH_SHORT).show()
-
+                    
                     for (report in reports) {
 
                         position = LatLng(report.latitude, report.longitude)
@@ -84,6 +117,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     .show()
             }
         })
+
+        //FAB BUTTONS SET ON CLICK LISTENER
+        buttonShowOpt.setOnClickListener {
+            if (!clicked) {
+                buttonReport.visibility = View.VISIBLE
+                buttonReport.startAnimation(fromBottom)
+                buttonShowOpt.startAnimation(rotateOpen)
+                buttonReport.isClickable = true
+            } else {
+                buttonReport.visibility = View.INVISIBLE
+                buttonReport.startAnimation(toBottom)
+                buttonShowOpt.startAnimation(rotateClose)
+                buttonReport.isClickable = false
+            }
+            clicked = !clicked
+        }
+
+        buttonReport.setOnClickListener {
+            //OPEN SOMETHING TO REPORT PROBLEM
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

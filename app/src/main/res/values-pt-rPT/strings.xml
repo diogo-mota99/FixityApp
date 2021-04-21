@@ -43,4 +43,6 @@
     <string name="reported_problems">Problemas Reportados</string>
     <string name="account">Conta</string>
     <string name="settings">Definições</string>
+    <string name="report_problem">Reportar Problema</string>
+    <string name="menuMap">Menu Mapa</string>
 </resources>
