@@ -45,4 +45,8 @@
     <string name="settings">Definições</string>
     <string name="report_problem">Reportar Problema</string>
     <string name="menuMap">Menu Mapa</string>
+    <string name="uploadPhoto">Upload foto</string>
+    <string name="upload_from_cam">Upload através da camera</string>
+    <string name="upload_from_gallery">Upload através da galeria</string>
+    <string name="enter_problem_here">Insira o problema aqui</string>
 </resources>

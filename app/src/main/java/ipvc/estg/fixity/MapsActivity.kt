@@ -89,7 +89,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
                 if (response.isSuccessful) {
                     reports = response.body()!!
-                    
+
                     for (report in reports) {
 
                         position = LatLng(report.latitude, report.longitude)
@@ -136,6 +136,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         buttonReport.setOnClickListener {
             //OPEN SOMETHING TO REPORT PROBLEM
+            val intentReport = Intent(
+                this@MapsActivity,
+                ReportActivity::class.java
+            )
+            startActivity(intentReport)
         }
     }
 

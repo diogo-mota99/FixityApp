@@ -59,4 +59,10 @@
     <string name="settings">Settings</string>
     <string name="report_problem">Report Problem</string>
     <string name="menuMap">Menu Map</string>
+    <string name="uploadPhoto">Upload Photo</string>
+    <string name="upload_from_cam">Upload using camera</string>
+    <string name="upload_from_gallery">Upload using gallery</string>
+    <string name="enter_problem_here">Enter problem here</string>
+    <string name="add_problem" translatable="false">add problem</string>
+    <string name="cancel_report" translatable="false">cancel report</string>
 </resources>
