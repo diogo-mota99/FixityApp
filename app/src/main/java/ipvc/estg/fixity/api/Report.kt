@@ -9,6 +9,6 @@ data class Report(
     val latitude: Double,
     val longitude: Double,
     val image_path: String,
-    val user_id: Int,
-    val problemType_id: Int
+    val problemType: Int,
+    val user_id: Int
 )

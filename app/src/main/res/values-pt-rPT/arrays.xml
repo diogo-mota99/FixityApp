@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="problemTypes">
+        <item>Acidente</item>
+        <item>Água e Saneamento</item>
+        <item>Espaços Públicos</item>
+        <item>Iluminação Pública</item>
+        <item>Mobilidade</item>
+        <item>Proteção Civil</item>
+    </string-array>
+</resources>

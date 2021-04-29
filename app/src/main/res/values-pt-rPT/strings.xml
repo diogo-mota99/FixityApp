@@ -49,4 +49,11 @@
     <string name="upload_from_cam">Upload através da camera</string>
     <string name="upload_from_gallery">Upload através da galeria</string>
     <string name="enter_problem_here">Insira o problema aqui</string>
+    <string name="photo_required">A foto é obrigatória!</string>
+    <string name="problem_required">Problema obrigatório!</string>
+    <string name="imageTypeError">Apenas são permitidos ficheiros JPG, JPEG e PNG!></string>
+    <string name="error_uploading">Erro ao fazer upload!</string>
+    <string name="size_error">Imagem demasiado grande! Tamanho máximo: 16Mb!</string>
+    <string name="error_updating">Erro ao reportar problema ou atualizar URL!</string>
+
 </resources>

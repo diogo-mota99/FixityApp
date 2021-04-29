@@ -65,4 +65,10 @@
     <string name="enter_problem_here">Enter problem here</string>
     <string name="add_problem" translatable="false">add problem</string>
     <string name="cancel_report" translatable="false">cancel report</string>
+    <string name="photo_required">Photo is required!</string>
+    <string name="problem_required">Problem required!</string>
+    <string name="imageTypeError">Only JPG, JPEG and PNG files are allowed!></string>
+    <string name="error_uploading">Error uploading!</string>
+    <string name="size_error">Image is too large! Max size: 16Mb!</string>
+    <string name="error_updating">Error reporting problem or updating URL!</string>
 </resources>

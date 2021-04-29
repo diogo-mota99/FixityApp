@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -32,6 +33,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var reports: List<Report>
+    private var userID: Int? = null
 
     //ANIMATIONS
     private val rotateOpen: Animation by lazy {
@@ -76,14 +78,60 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         var clicked = false
         val buttonReport = findViewById<FloatingActionButton>(R.id.button_reportProblem)
         val buttonShowOpt = findViewById<FloatingActionButton>(R.id.button_menuMap)
+        val labelReport = findViewById<TextView>(R.id.labelReportProblem)
 
 
+        //FAB BUTTONS SET ON CLICK LISTENER
+        buttonShowOpt.setOnClickListener {
+            if (!clicked) {
+                buttonReport.visibility = View.VISIBLE
+                buttonReport.startAnimation(fromBottom)
+                labelReport.visibility = View.VISIBLE
+                labelReport.startAnimation(fromBottom)
+                buttonShowOpt.startAnimation(rotateOpen)
+                buttonReport.isClickable = true
+            } else {
+                buttonReport.visibility = View.INVISIBLE
+                buttonReport.startAnimation(toBottom)
+                labelReport.visibility = View.INVISIBLE
+                labelReport.startAnimation(toBottom)
+                buttonShowOpt.startAnimation(rotateClose)
+                buttonReport.isClickable = false
+            }
+            clicked = !clicked
+        }
+
+        buttonReport.setOnClickListener {
+            //OPEN SOMETHING TO REPORT PROBLEM
+            val intentReport = Intent(
+                this@MapsActivity,
+                ReportActivity::class.java
+            )
+            intentReport.putExtra(EXTRA_IDUSER, userID)
+            startActivity(intentReport)
+        }
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+
+        //MOVE CAMERA TO VIANA DO CASTELO
+        val viana = LatLng(41.6946, -8.83016)
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(viana))
+    }
+
+    override fun onStart() {
+        super.onStart()
+        getPointsToMap()
+    }
+
+    private fun getPointsToMap() {
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getCoordinates()
         var position: LatLng
 
         val intent: Bundle? = intent.extras
-        val userID = intent?.getInt(MainActivity.EXTRA_USERID)
+        userID = intent?.getInt(MainActivity.EXTRA_USERID)
 
         call.enqueue(object : Callback<List<Report>> {
             override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
@@ -117,39 +165,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     .show()
             }
         })
-
-        //FAB BUTTONS SET ON CLICK LISTENER
-        buttonShowOpt.setOnClickListener {
-            if (!clicked) {
-                buttonReport.visibility = View.VISIBLE
-                buttonReport.startAnimation(fromBottom)
-                buttonShowOpt.startAnimation(rotateOpen)
-                buttonReport.isClickable = true
-            } else {
-                buttonReport.visibility = View.INVISIBLE
-                buttonReport.startAnimation(toBottom)
-                buttonShowOpt.startAnimation(rotateClose)
-                buttonReport.isClickable = false
-            }
-            clicked = !clicked
-        }
-
-        buttonReport.setOnClickListener {
-            //OPEN SOMETHING TO REPORT PROBLEM
-            val intentReport = Intent(
-                this@MapsActivity,
-                ReportActivity::class.java
-            )
-            startActivity(intentReport)
-        }
-    }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-
-        //MOVE CAMERA TO VIANA DO CASTELO
-        val viana = LatLng(41.6946, -8.83016)
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(viana))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -180,6 +195,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+                finish()
                 return true
             }
             R.id.settingAction -> {
@@ -188,6 +204,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    companion object {
+        const val EXTRA_IDUSER = "com.estg.fixity.messages.USERID"
     }
 
 }

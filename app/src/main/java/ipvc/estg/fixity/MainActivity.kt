@@ -46,7 +46,10 @@ class MainActivity : AppCompatActivity() {
         //GET USER ID SAVED ON SHAREDPREFERENCES
         val userId = sharedPrefs.getInt(getString(R.string.pref_user_id), 0)
 
+        val welcome = getString(R.string.welcome)
+
         if (isLoggedIn) {
+            Toast.makeText(this@MainActivity, "$welcome, $usernameSaved", Toast.LENGTH_SHORT).show()
             val intent = Intent(
                 this@MainActivity,
                 MapsActivity::class.java

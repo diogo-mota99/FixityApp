@@ -1,5 +1,7 @@
 package ipvc.estg.fixity.api
 
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -13,6 +15,7 @@ interface EndPoints {
     @GET("fixity/users/byemail/{email}")
     fun getUsersByEmail(@Path("email") email: String): Call<User>
 
+    //REGISTER USER
     @FormUrlEncoded
     @POST("fixity/users")
     fun postUser(
@@ -22,6 +25,7 @@ interface EndPoints {
         @Field("password") password: String?
     ): Call<OutputPost>
 
+    //LOGIN
     @FormUrlEncoded
     @POST("fixity/users/login")
     fun postUserLogin(
@@ -29,7 +33,20 @@ interface EndPoints {
         @Field("password") password: String?
     ): Call<OutputPost>
 
-    //GET COORDINATES
+    //GET COORDINATES (ALL REPORTS INFORMATION)
     @GET("fixity/reports")
     fun getCoordinates(): Call<List<Report>>
+
+    //REPORT PROBLEM
+    @Multipart
+    @POST("fixity/report")
+    fun postReportProblem(
+        @Part("problem") problem: RequestBody,
+        @Part("latitude") latitude: RequestBody,
+        @Part("longitude") longitude: RequestBody,
+        @Part image: MultipartBody.Part?,
+        @Part("problemType") problemType: RequestBody,
+        @Part("userID") userID: RequestBody
+
+    ): Call<OutputPost>
 }
