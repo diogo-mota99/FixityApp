@@ -1,5 +1,6 @@
 package ipvc.estg.fixity.api
 
+import android.media.Image
 import java.sql.Blob
 
 data class Report(
@@ -7,7 +8,7 @@ data class Report(
     val problem: String,
     val latitude: Double,
     val longitude: Double,
-    val photo: Blob,
-    val user_id: Int,
-    val problemType_id: Int
+    val image_path: String,
+    val problemType: Int,
+    val user_id: Int
 )
