@@ -72,7 +72,7 @@ class ReportDetails : AppCompatActivity() {
         btnEdit = findViewById(R.id.btn_editProblem)
         btnRemove = findViewById(R.id.btn_deleteProblem)
 
-
+        //GET IMAGE FROM SERVER
         Picasso.get().load("https://fixity.pt/myslim/fixity/images/$idProblem.jpeg")
             .into(imageProblem);
 
@@ -89,6 +89,8 @@ class ReportDetails : AppCompatActivity() {
                     val report: Report = response.body()!!
                     userReport = report.user_id
 
+
+                    //VERIFY IF USER CAN EDIT/REMOVE THE PROBLEM
                     if (userLogado != userReport) {
                         btnRemove.visibility = View.INVISIBLE
                         btnEdit.visibility = View.INVISIBLE
