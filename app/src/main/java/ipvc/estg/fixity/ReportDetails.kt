@@ -7,9 +7,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
 import ipvc.estg.fixity.api.EndPoints
+import ipvc.estg.fixity.api.OutputPost
 import ipvc.estg.fixity.api.Report
 import ipvc.estg.fixity.api.ServiceBuilder
 import retrofit2.Call
@@ -92,7 +94,7 @@ class ReportDetails : AppCompatActivity() {
                         btnEdit.visibility = View.INVISIBLE
                     } else {
                         btnRemove.setOnClickListener {
-                            /*val requestDelete = ServiceBuilder.buildService(EndPoints::class.java)
+                            val requestDelete = ServiceBuilder.buildService(EndPoints::class.java)
 
                             val builder = AlertDialog.Builder(this@ReportDetails)
                             builder.setPositiveButton(R.string.ok) { _, _ ->
@@ -153,7 +155,6 @@ class ReportDetails : AppCompatActivity() {
 
                             builder.setMessage(R.string.delete_problem_confirmation)
                             builder.create().show()
-                        */
                         }
                     }
                 }
