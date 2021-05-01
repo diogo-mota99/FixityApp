@@ -163,6 +163,11 @@ class ReportDetails : AppCompatActivity() {
                         btnEdit.setOnClickListener {
                             val intentEdit =
                                 Intent(this@ReportDetails, UpdateProblemActivity::class.java)
+                            intentEdit.putExtra(EXTRA_IDPROBLEM, idProblem)
+                            intentEdit.putExtra(EXTRA_PROBLEMDESC, problemDesc)
+                            intentEdit.putExtra(EXTRA_PROBLEMCATEGORY, problemCategory)
+                            intentEdit.putExtra(EXTRA_USERID, userLogado)
+                            intentEdit.putExtra(EXTRA_LATLNG, problemLatLng)
                             startActivity(intentEdit)
                             finish()
                         }
@@ -194,5 +199,13 @@ class ReportDetails : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
+    }
+
+    companion object {
+        const val EXTRA_IDPROBLEM = "com.estg.fixity.messages.IDPROBLEM"
+        const val EXTRA_PROBLEMDESC = "com.estg.fixity.messages.PROBLEMDESC"
+        const val EXTRA_PROBLEMCATEGORY = "com.estg.fixity.messages.PROBLEMCATEGORY"
+        const val EXTRA_USERID = "com.estg.fixity.messages.USERID"
+        const val EXTRA_LATLNG = "com.estg.fixity.messages.LATLNG"
     }
 }

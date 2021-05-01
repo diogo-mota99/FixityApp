@@ -107,7 +107,7 @@ ReportActivity : AppCompatActivity() {
         imageView = findViewById(R.id.imageUpload)
         val txtProblem = findViewById<EditText>(R.id.addProblemReport)
 
-        //val spinner = findViewById<Spinner>(R.id.spinnerProblemType)
+
         val textField = findViewById<AutoCompleteTextView>(R.id.txtCategory)
         val problemTypes = resources.getStringArray(R.array.problemTypes)
 
