@@ -1,5 +1,6 @@
 package ipvc.estg.fixity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -157,6 +158,13 @@ class ReportDetails : AppCompatActivity() {
 
                             builder.setMessage(R.string.delete_problem_confirmation)
                             builder.create().show()
+                        }
+
+                        btnEdit.setOnClickListener {
+                            val intentEdit =
+                                Intent(this@ReportDetails, UpdateProblemActivity::class.java)
+                            startActivity(intentEdit)
+                            finish()
                         }
                     }
                 }

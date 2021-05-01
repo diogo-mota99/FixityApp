@@ -66,5 +66,6 @@
     <string name="category">Categoria</string>
     <string name="problem">Problema</string>
     <string name="delete_problem_confirmation">Deseja eliminar este problema?</string>
+    <string name="edit_problem_title">Editar Problema</string>
 
 </resources>

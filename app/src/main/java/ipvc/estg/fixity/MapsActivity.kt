@@ -107,7 +107,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         buttonReport.setOnClickListener {
-            //OPEN SOMETHING TO REPORT PROBLEM
+            //OPEN SCREEN TO REPORT PROBLEM
             val intentReport = Intent(
                 this@MapsActivity,
                 ReportActivity::class.java
