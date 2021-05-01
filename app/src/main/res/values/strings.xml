@@ -71,4 +71,15 @@
     <string name="error_uploading">Error uploading!</string>
     <string name="size_error">Image is too large! Max size: 16Mb!</string>
     <string name="error_updating">Error reporting problem or updating URL!</string>
+    <string name="edit_problem">Edit Problem</string>
+    <string name="remove_problem">Remove problem</string>
+    <string name="problem_details">Problem Details</string>
+    <string name="problemDeleteError">Error deleting problem!</string>
+    <string name="problemNotFound">Problem not found!</string>
+    <string name="problemDeleted">Problem deleted sucessfully!</string>
+    <string name="select_category">Select category</string>
+    <string name="coordinates">Coordinates</string>
+    <string name="category">Category</string>
+    <string name="problem">Problem</string>
+    <string name="delete_problem_confirmation">Do you want to delete this problem?</string>
 </resources>

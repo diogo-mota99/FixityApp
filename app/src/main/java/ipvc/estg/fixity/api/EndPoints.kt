@@ -49,4 +49,14 @@ interface EndPoints {
         @Part("userID") userID: RequestBody
 
     ): Call<OutputPost>
+
+    //GET PROBLEM BY ID
+    @GET("fixity/reports/{id}")
+    fun getProblemById(
+        @Path("id") id: String?
+    ): Call<Report>
+
+    //DELETE PROBLEM BY ID
+    @DELETE("fixity/report/delete/{id}")
+    fun deleteProblemById(@Path("id") id: String?): Call<OutputPost>
 }

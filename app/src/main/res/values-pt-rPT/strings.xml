@@ -55,5 +55,16 @@
     <string name="error_uploading">Erro ao fazer upload!</string>
     <string name="size_error">Imagem demasiado grande! Tamanho máximo: 16Mb!</string>
     <string name="error_updating">Erro ao reportar problema ou atualizar URL!</string>
+    <string name="edit_problem">Editar Problema</string>
+    <string name="remove_problem">Remover problema</string>
+    <string name="problem_details">Detalhes de Problema</string>
+    <string name="problemDeleteError">Erro ao eliminar o problema!</string>
+    <string name="problemNotFound">Problema não encontrado!</string>
+    <string name="problemDeleted">Problema eliminado com sucesso!</string>
+    <string name="select_category">Selecione a categoria</string>
+    <string name="coordinates">Coordenadas</string>
+    <string name="category">Categoria</string>
+    <string name="problem">Problema</string>
+    <string name="delete_problem_confirmation">Deseja eliminar este problema?</string>
 
 </resources>

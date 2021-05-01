@@ -13,7 +13,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.MenuItem
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -31,7 +30,8 @@ import java.io.*
 import java.util.*
 
 
-class ReportActivity : AppCompatActivity() {
+class
+ReportActivity : AppCompatActivity() {
 
     private val cameraRequest = 1888
     private val galleryRequest = 1001
@@ -84,7 +84,7 @@ class ReportActivity : AppCompatActivity() {
 
         //GET USER ID FROM MAPS ACTIVITY
         val intentUser: Bundle? = intent.extras
-        idUser = intentUser?.getInt(MapsActivity.EXTRA_IDUSER)
+        idUser = intentUser?.getInt(MapsActivity.EXTRA_IDUSERLOGIN)
 
 
         //LOCATION
@@ -107,32 +107,19 @@ class ReportActivity : AppCompatActivity() {
         imageView = findViewById(R.id.imageUpload)
         val txtProblem = findViewById<EditText>(R.id.addProblemReport)
 
-        val spinner = findViewById<Spinner>(R.id.spinnerProblemType)
+        //val spinner = findViewById<Spinner>(R.id.spinnerProblemType)
+        val textField = findViewById<AutoCompleteTextView>(R.id.txtCategory)
         val problemTypes = resources.getStringArray(R.array.problemTypes)
 
-        if (spinner != null) {
-            val adapter = ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item, problemTypes
-            )
-            spinner.adapter = adapter
 
-            spinner.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View, position: Int, id: Long
-                ) {
-                    selectedType = position + 1
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    // write code to perform some action
-                }
+        if (textField != null) {
+            val adapter =
+                ArrayAdapter(this@ReportActivity, R.layout.exposed_menu_item, problemTypes)
+            textField.setText(problemTypes[0])
+            textField.setAdapter(adapter)
+            textField.setOnItemClickListener { _, _, position, _ ->
+                selectedType = position + 1
             }
-
-
-
 
             buttonCamera.setOnClickListener {
                 if (ActivityCompat.checkSelfPermission(
@@ -220,7 +207,7 @@ class ReportActivity : AppCompatActivity() {
                         reportProblem.enqueue(object : retrofit2.Callback<OutputPost> {
                             override fun onResponse(
                                 call: Call<OutputPost>,
-                                response: Response<OutputPost>
+                                response: Response<OutputPost>,
                             ) {
                                 if (response.isSuccessful) {
 
