@@ -38,6 +38,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var reports: List<Report>
     private var userID: Int? = null
     private var problemID: String = ""
+    private var problemTimestamp: String = ""
     private lateinit var problemDesc: TextView
     private lateinit var problemCategory: TextView
     private lateinit var latLng: TextView
@@ -126,11 +127,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //MOVE CAMERA TO VIANA DO CASTELO
         val viana = LatLng(41.6946, -8.83016)
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(viana))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(viana, 8f))
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         getPointsToMap()
     }
 
@@ -176,6 +177,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             6 -> {
                                 problemTypes = items[5].toString()
                             }
+
                         }
 
                         // Setting a custom info window adapter for the google map
@@ -203,7 +205,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                                     problemCategory =
                                         v.findViewById<View>(R.id.problemCategory) as TextView
-                                    problemCategory.text = arg0.snippet
+                                    problemCategory.text = arg0.snippet.substringBefore(" -")
 
                                     latLng =
                                         v.findViewById<View>(R.id.latLngProblem) as TextView
@@ -214,11 +216,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                                     problemID = arg0.title.substringBefore(" -")
 
+                                    problemTimestamp = arg0.snippet.substringAfter("- ")
+
                                     Glide.with(this@MapsActivity)
                                         .load("https://fixity.pt/myslim/fixity/images/$problemID.jpeg")
-                                        .signature(ObjectKey(System.currentTimeMillis()))
+                                        .signature(ObjectKey(problemTimestamp))
                                         .into(image)
-
 
                                 } catch (ev: Exception) {
                                     print(ev.message)
@@ -256,7 +259,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             mMap.addMarker(
                                 MarkerOptions().position(position)
                                     .title("" + report.id + " - " + report.problem).snippet(
-                                        problemTypes
+                                        "" + problemTypes + " - " + report.timestamp
                                     ).icon(
                                         BitmapDescriptorFactory.defaultMarker(
                                             BitmapDescriptorFactory.HUE_AZURE
@@ -283,17 +286,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         })
     }
 
-    private class InfoWindowRefresher private constructor(private val markerToRefresh: Marker) :
-        Callback<Any?> {
-        override fun onResponse(call: Call<Any?>, response: Response<Any?>) {
-            markerToRefresh.showInfoWindow()
-        }
-
-        override fun onFailure(call: Call<Any?>, t: Throwable) {
-            TODO("Not yet implemented")
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_toolbar, menu)
@@ -306,10 +298,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             R.id.notesAction -> {
                 val intent = Intent(this, NoteListActivity::class.java)
                 startActivity(intent)
-                return true
-            }
-            R.id.accountAction -> {
-                Toast.makeText(applicationContext, "click on account", Toast.LENGTH_LONG).show()
                 return true
             }
             R.id.logoutAction -> {

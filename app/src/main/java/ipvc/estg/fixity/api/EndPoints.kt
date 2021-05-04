@@ -22,7 +22,7 @@ interface EndPoints {
         @Field("name") name: String?,
         @Field("username") username: String?,
         @Field("email") email: String?,
-        @Field("password") password: String?
+        @Field("password") password: String?,
     ): Call<OutputPost>
 
     //LOGIN
@@ -30,7 +30,7 @@ interface EndPoints {
     @POST("fixity/users/login")
     fun postUserLogin(
         @Field("username") username: String?,
-        @Field("password") password: String?
+        @Field("password") password: String?,
     ): Call<OutputPost>
 
     //GET COORDINATES (ALL REPORTS INFORMATION)
@@ -46,14 +46,14 @@ interface EndPoints {
         @Part("longitude") longitude: RequestBody,
         @Part image: MultipartBody.Part?,
         @Part("problemType") problemType: RequestBody,
-        @Part("userID") userID: RequestBody
+        @Part("userID") userID: RequestBody,
 
-    ): Call<OutputPost>
+        ): Call<OutputPost>
 
     //GET PROBLEM BY ID
     @GET("fixity/reports/{id}")
     fun getProblemById(
-        @Path("id") id: String?
+        @Path("id") id: String?,
     ): Call<Report>
 
     //DELETE PROBLEM BY ID
@@ -66,7 +66,14 @@ interface EndPoints {
     fun postEditProblem(
         @Path("id") id: String?,
         @Part("problem") problem: RequestBody,
-        @Part image: MultipartBody.Part?,
         @Part("problemType") problemType: RequestBody,
+    ): Call<OutputPost>
+
+    //UPDATE PROBLEM PHOTO
+    @Multipart
+    @POST("fixity/report/update/photo/{id}")
+    fun postEditProblemPhoto(
+        @Path("id") id: String?,
+        @Part image: MultipartBody.Part?,
     ): Call<OutputPost>
 }

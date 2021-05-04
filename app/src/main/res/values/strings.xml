@@ -84,4 +84,5 @@
     <string name="edit_problem_title">Edit Problem</string>
     <string name="error_updating_data">Error updating data!</string>
     <string name="data_updated_sucess">Data updated successfully!</string>
+    <string name="nothing_changed">No value has been changed!</string>
 </resources>

@@ -11,6 +11,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -43,6 +46,9 @@ class UpdateProblemActivity : AppCompatActivity() {
     private val cameraRequest = 1888
     private val galleryRequest = 1001
     private val imageChoose = 1000
+    private lateinit var updateProblem: Call<OutputPost>
+    private lateinit var updateProblemPhoto: Call<OutputPost>
+    private var isChanged: Boolean = false
 
 
     //PROBLEM TYPES
@@ -102,7 +108,7 @@ class UpdateProblemActivity : AppCompatActivity() {
 
                     val op: Report = response.body()!!
 
-                    selectedType = op.problemType;
+                    selectedType = op.problemType
 
                     val items = resources.getStringArray(R.array.problemTypes)
                     var problemCategory = ""
@@ -145,8 +151,6 @@ class UpdateProblemActivity : AppCompatActivity() {
                         .load("https://fixity.pt/myslim/fixity/images/$problemId.jpeg")
                         .signature(ObjectKey(System.currentTimeMillis()))
                         .into(imageView)
-
-
                 }
             }
 
@@ -211,8 +215,7 @@ class UpdateProblemActivity : AppCompatActivity() {
                 )
                     .show()
             } else {
-                val request =
-                    ServiceBuilder.buildService(EndPoints::class.java)
+                val request = ServiceBuilder.buildService(EndPoints::class.java)
 
                 val problem: RequestBody = RequestBody.create(
                     MediaType.parse("multipart/form-data"),
@@ -224,68 +227,175 @@ class UpdateProblemActivity : AppCompatActivity() {
                     selectedType.toString()
                 )
 
-                val updateProblem = request.postEditProblem(
-                    problemId, problem, image, problemType
-                )
-
-                updateProblem.enqueue(object : retrofit2.Callback<OutputPost> {
-                    override fun onResponse(
-                        call: Call<OutputPost>,
-                        response: Response<OutputPost>,
+                txtProblem.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int,
                     ) {
-                        if (response.isSuccessful) {
+                        Log.d("TAG", "beforeTextChanged")
+                    }
 
-                            val op: OutputPost = response.body()!!
-
-                            if (!op.status) {
-                                when (op.error) {
-                                    "upload" -> Toast.makeText(
-                                        this@UpdateProblemActivity,
-                                        R.string.error_uploading,
-                                        Toast.LENGTH_SHORT
-                                    )
-                                        .show()
-                                    "size" -> Toast.makeText(
-                                        this@UpdateProblemActivity,
-                                        R.string.size_error,
-                                        Toast.LENGTH_SHORT
-                                    )
-                                        .show()
-                                    "uploading" -> Toast.makeText(
-                                        this@UpdateProblemActivity,
-                                        R.string.error_uploading,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    "data" -> Toast.makeText(
-                                        this@UpdateProblemActivity,
-                                        R.string.error_updating_data,
-                                        Toast.LENGTH_SHORT
-                                    )
-                                        .show()
-                                    "404" -> Toast.makeText(this@UpdateProblemActivity,
-                                        R.string.problemNotFound,
-                                        Toast.LENGTH_SHORT).show()
-                                }
-                            } else {
-                                Toast.makeText(this@UpdateProblemActivity,
-                                    R.string.data_updated_sucess,
-                                    Toast.LENGTH_SHORT).show()
-                                finish()
-                            }
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int,
+                    ) {
+                        if (txtProblem.isFocused) {
+                            isChanged = true;
                         }
                     }
 
-                    override fun onFailure(call: Call<OutputPost>, t: Throwable) {
-                        Toast.makeText(
-                            this@UpdateProblemActivity,
-                            R.string.error_register,
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                    override fun afterTextChanged(s: Editable?) {
+                        Log.d("TAG", "afterTextChanged")
                     }
+
                 })
+
+                if (photo != null) {
+
+                    updateProblemPhoto = request.postEditProblemPhoto(
+                        problemId, image
+                    )
+
+                    updateReportPhoto()
+                } else {
+                    if (isChanged) {
+                        updateProblem = request.postEditProblem(
+                            problemId, problem, problemType
+                        )
+
+                        updateReport()
+                    } else {
+                        Toast.makeText(this@UpdateProblemActivity,
+                            R.string.nothing_changed,
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
+    }
+
+    fun updateReport() {
+        //WEBSERVICE TO UPDATE PROBLEM
+        updateProblem.enqueue(object : Callback<OutputPost> {
+            override fun onResponse(
+                call: Call<OutputPost>,
+                response: Response<OutputPost>,
+            ) {
+                if (response.isSuccessful) {
+
+                    val op: OutputPost = response.body()!!
+
+                    if (!op.status) {
+                        when (op.error) {
+                            "upload" -> Toast.makeText(
+                                this@UpdateProblemActivity,
+                                R.string.error_uploading,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            "size" -> Toast.makeText(
+                                this@UpdateProblemActivity,
+                                R.string.size_error,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            "uploading" -> Toast.makeText(
+                                this@UpdateProblemActivity,
+                                R.string.error_uploading,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            "data" -> Toast.makeText(
+                                this@UpdateProblemActivity,
+                                R.string.error_updating_data,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            "404" -> Toast.makeText(this@UpdateProblemActivity,
+                                R.string.problemNotFound,
+                                Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this@UpdateProblemActivity,
+                            R.string.data_updated_sucess,
+                            Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<OutputPost>, t: Throwable) {
+                Toast.makeText(
+                    this@UpdateProblemActivity,
+                    t.toString()/*R.string.error_register*/,
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+        })
+    }
+
+    fun updateReportPhoto() { //WEBSERVICE TO UPDATE PHOTO
+        updateProblemPhoto.enqueue(object : Callback<OutputPost> {
+            override fun onResponse(
+                call: Call<OutputPost>,
+                response: Response<OutputPost>,
+            ) {
+                if (response.isSuccessful) {
+
+                    val op: OutputPost = response.body()!!
+
+                    if (!op.status) {
+                        when (op.error) {
+                            "upload" -> Toast.makeText(
+                                this@UpdateProblemActivity,
+                                R.string.error_uploading,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            "size" -> Toast.makeText(
+                                this@UpdateProblemActivity,
+                                R.string.size_error,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            "uploading" -> Toast.makeText(
+                                this@UpdateProblemActivity,
+                                R.string.error_uploading,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            "data" -> Toast.makeText(
+                                this@UpdateProblemActivity,
+                                R.string.error_updating_data,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            "404" -> Toast.makeText(this@UpdateProblemActivity,
+                                R.string.problemNotFound,
+                                Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this@UpdateProblemActivity,
+                            R.string.data_updated_sucess,
+                            Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<OutputPost>, t: Throwable) {
+                Toast.makeText(
+                    this@UpdateProblemActivity,
+                    t.toString()/*R.string.error_register*/,
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
