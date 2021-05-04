@@ -16,19 +16,26 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ipvc.estg.fixity.api.EndPoints
+import ipvc.estg.fixity.api.OutputPost
+import ipvc.estg.fixity.api.Report
 import ipvc.estg.fixity.api.ServiceBuilder
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.*
 import java.util.*
 
 class UpdateProblemActivity : AppCompatActivity() {
 
     private lateinit var imageView: ImageView
-    var selectedType: Int? = null
+    private var selectedType: Int = 0
     private var fileToUpload: File? = null
     private var photo: Bitmap? = null
     private var requestFile: RequestBody? = null
@@ -70,9 +77,8 @@ class UpdateProblemActivity : AppCompatActivity() {
 
         //GET DATA FROM MAPS ACTIVITY
         val intent: Bundle? = intent.extras
-        val problemDesc = intent?.getString(ReportDetails.EXTRA_PROBLEMDESC)
         val problemId = intent?.getString(ReportDetails.EXTRA_IDPROBLEM)
-        val problemCategory = intent?.getString(ReportDetails.EXTRA_PROBLEMCATEGORY)
+
 
         //TEXTFIELDS
         val buttonSave = findViewById<FloatingActionButton>(R.id.button_editProblem)
@@ -86,19 +92,71 @@ class UpdateProblemActivity : AppCompatActivity() {
         val textField = findViewById<AutoCompleteTextView>(R.id.txtCategoryEdit)
         val problemTypes = resources.getStringArray(R.array.problemTypes)
 
+        //GET DATA FROM PROBLEM BY ID FROM SERVER
+        val requestProblem = ServiceBuilder.buildService(EndPoints::class.java)
+        val call = requestProblem.getProblemById(problemId)
 
-        if (textField != null) {
-            val adapter =
-                ArrayAdapter(this@UpdateProblemActivity, R.layout.exposed_menu_item, problemTypes)
-            textField.setText(problemCategory)
-            textField.setAdapter(adapter)
-            textField.setOnItemClickListener { _, _, position, _ ->
-                selectedType = position + 1
+        call.enqueue(object : Callback<Report> {
+            override fun onResponse(call: Call<Report>, response: Response<Report>) {
+                if (response.isSuccessful) {
+
+                    val op: Report = response.body()!!
+
+                    selectedType = op.problemType;
+
+                    val items = resources.getStringArray(R.array.problemTypes)
+                    var problemCategory = ""
+
+                    when (op.problemType) {
+                        1 -> {
+                            problemCategory = items[0].toString()
+                        }
+                        2 -> {
+                            problemCategory = items[1].toString()
+                        }
+                        3 -> {
+                            problemCategory = items[2].toString()
+                        }
+                        4 -> {
+                            problemCategory = items[3].toString()
+                        }
+                        5 -> {
+                            problemCategory = items[4].toString()
+                        }
+                        6 -> {
+                            problemCategory = items[5].toString()
+                        }
+                    }
+
+                    val adapter =
+                        ArrayAdapter(this@UpdateProblemActivity,
+                            R.layout.exposed_menu_item,
+                            problemTypes)
+                    textField.setText(problemCategory)
+                    textField.setAdapter(adapter)
+                    textField.setOnItemClickListener { _, _, position, _ ->
+                        selectedType = position + 1
+                    }
+
+                    txtProblem.setText(op.problem)
+
+                    //GET IMAGE FROM SERVER
+                    Glide.with(this@UpdateProblemActivity)
+                        .load("https://fixity.pt/myslim/fixity/images/$problemId.jpeg")
+                        .signature(ObjectKey(System.currentTimeMillis()))
+                        .into(imageView)
+
+
+                }
             }
 
-        }
+            override fun onFailure(call: Call<Report>, t: Throwable) {
+                Toast.makeText(this@UpdateProblemActivity,
+                    R.string.error_register,
+                    Toast.LENGTH_SHORT).show()
+            }
 
-        txtProblem.setText(problemDesc)
+        })
 
         buttonCamera.setOnClickListener {
             if (ActivityCompat.checkSelfPermission(
@@ -145,96 +203,87 @@ class UpdateProblemActivity : AppCompatActivity() {
         }
 
         buttonSave.setOnClickListener {
-            if (photo != null) {
-                if (txtProblem.text.isNullOrEmpty()) {
-                    Toast.makeText(
-                        this@UpdateProblemActivity,
-                        R.string.problem_required,
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                } else {
-                    val request =
-                        ServiceBuilder.buildService(EndPoints::class.java)
-
-                    val problem: RequestBody = RequestBody.create(
-                        MediaType.parse("multipart/form-data"),
-                        txtProblem.text.toString()
-                    )
-
-                    val problemType: RequestBody = RequestBody.create(
-                        MediaType.parse("multipart/form-data"),
-                        selectedType.toString()
-                    )
-
-
-                    /*val reportProblem = request.postReportProblem(
-                        problem, latitude, longitude, image, problemType, idUser
-                    )*/
-
-                    /* reportProblem.enqueue(object : retrofit2.Callback<OutputPost> {
-                         override fun onResponse(
-                             call: Call<OutputPost>,
-                             response: Response<OutputPost>,
-                         ) {
-                             if (response.isSuccessful) {
-
-                                 val op: OutputPost = response.body()!!
-
-                                 if (!op.status) {
-                                     when (op.error) {
-                                         "type" -> Toast.makeText(
-                                             this@UpdateProblemActivity,
-                                             R.string.imageTypeError,
-                                             Toast.LENGTH_SHORT
-                                         )
-                                             .show()
-                                         "upload" -> Toast.makeText(
-                                             this@UpdateProblemActivity,
-                                             R.string.error_uploading,
-                                             Toast.LENGTH_SHORT
-                                         )
-                                             .show()
-                                         "size" -> Toast.makeText(
-                                             this@UpdateProblemActivity,
-                                             R.string.size_error,
-                                             Toast.LENGTH_SHORT
-                                         )
-                                             .show()
-                                         "uploading" -> Toast.makeText(
-                                             this@UpdateProblemActivity,
-                                             R.string.error_uploading,
-                                             Toast.LENGTH_SHORT
-                                         ).show()
-                                         "updating" -> Toast.makeText(
-                                             this@UpdateProblemActivity,
-                                             R.string.error_updating,
-                                             Toast.LENGTH_SHORT
-                                         )
-                                             .show()
-                                     }
-                                 } else {
-                                     finish()
-                                 }
-                             }
-                         }
-
-                         override fun onFailure(call: Call<OutputPost>, t: Throwable) {
-                             Toast.makeText(
-                                 this@UpdateProblemActivity,
-                                 R.string.error_register,
-                                 Toast.LENGTH_SHORT
-                             )
-                                 .show()
-
-                         }
-                     })*/
-                }
-            } else {
-                Toast.makeText(this@UpdateProblemActivity,
-                    R.string.photo_required,
-                    Toast.LENGTH_SHORT)
+            if (txtProblem.text.isNullOrEmpty()) {
+                Toast.makeText(
+                    this@UpdateProblemActivity,
+                    R.string.problem_required,
+                    Toast.LENGTH_SHORT
+                )
                     .show()
+            } else {
+                val request =
+                    ServiceBuilder.buildService(EndPoints::class.java)
+
+                val problem: RequestBody = RequestBody.create(
+                    MediaType.parse("multipart/form-data"),
+                    txtProblem.text.toString()
+                )
+
+                val problemType: RequestBody = RequestBody.create(
+                    MediaType.parse("multipart/form-data"),
+                    selectedType.toString()
+                )
+
+                val updateProblem = request.postEditProblem(
+                    problemId, problem, image, problemType
+                )
+
+                updateProblem.enqueue(object : retrofit2.Callback<OutputPost> {
+                    override fun onResponse(
+                        call: Call<OutputPost>,
+                        response: Response<OutputPost>,
+                    ) {
+                        if (response.isSuccessful) {
+
+                            val op: OutputPost = response.body()!!
+
+                            if (!op.status) {
+                                when (op.error) {
+                                    "upload" -> Toast.makeText(
+                                        this@UpdateProblemActivity,
+                                        R.string.error_uploading,
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                    "size" -> Toast.makeText(
+                                        this@UpdateProblemActivity,
+                                        R.string.size_error,
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                    "uploading" -> Toast.makeText(
+                                        this@UpdateProblemActivity,
+                                        R.string.error_uploading,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    "data" -> Toast.makeText(
+                                        this@UpdateProblemActivity,
+                                        R.string.error_updating_data,
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                    "404" -> Toast.makeText(this@UpdateProblemActivity,
+                                        R.string.problemNotFound,
+                                        Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                Toast.makeText(this@UpdateProblemActivity,
+                                    R.string.data_updated_sucess,
+                                    Toast.LENGTH_SHORT).show()
+                                finish()
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<OutputPost>, t: Throwable) {
+                        Toast.makeText(
+                            this@UpdateProblemActivity,
+                            R.string.error_register,
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                })
             }
         }
     }

@@ -11,6 +11,7 @@ android {
 
     defaultConfig {
         applicationId "ipvc.estg.fixity"
+        multiDexEnabled true
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
@@ -52,8 +53,10 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation "androidx.multidex:multidex:2.0.1"
 
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
     implementation "androidx.appcompat:appcompat:1.2.0"
     implementation 'androidx.activity:activity-ktx:1.2.2'

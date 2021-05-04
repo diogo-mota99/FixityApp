@@ -67,7 +67,6 @@
     <string name="cancel_report" translatable="false">cancel report</string>
     <string name="photo_required">Photo is required!</string>
     <string name="problem_required">Problem required!</string>
-    <string name="imageTypeError">Only JPG, JPEG and PNG files are allowed!></string>
     <string name="error_uploading">Error uploading!</string>
     <string name="size_error">Image is too large! Max size: 16Mb!</string>
     <string name="error_updating">Error reporting problem or updating URL!</string>
@@ -76,11 +75,13 @@
     <string name="problem_details">Problem Details</string>
     <string name="problemDeleteError">Error deleting problem!</string>
     <string name="problemNotFound">Problem not found!</string>
-    <string name="problemDeleted">Problem deleted sucessfully!</string>
+    <string name="problemDeleted">Problem deleted successfully!</string>
     <string name="select_category">Select category</string>
     <string name="coordinates">Coordinates</string>
     <string name="category">Category</string>
     <string name="problem">Problem</string>
     <string name="delete_problem_confirmation">Do you want to delete this problem?</string>
     <string name="edit_problem_title">Edit Problem</string>
+    <string name="error_updating_data">Error updating data!</string>
+    <string name="data_updated_sucess">Data updated successfully!</string>
 </resources>

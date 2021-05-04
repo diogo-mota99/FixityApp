@@ -10,7 +10,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import ipvc.estg.fixity.api.EndPoints
 import ipvc.estg.fixity.api.OutputPost
 import ipvc.estg.fixity.api.Report
@@ -73,16 +74,20 @@ class ReportDetails : AppCompatActivity() {
         btnEdit = findViewById(R.id.btn_editProblem)
         btnRemove = findViewById(R.id.btn_deleteProblem)
 
-        //GET IMAGE FROM SERVER
-        Picasso.get().load("https://fixity.pt/myslim/fixity/images/$idProblem.jpeg")
-            .into(imageProblem);
-
         txtProblem.text = problemDesc
         txtCategory.text = problemCategory
         txtCoordinates.text = problemLatLng
 
+        //GET IMAGE FROM SERVER
+        Glide.with(this@ReportDetails)
+            .load("https://fixity.pt/myslim/fixity/images/$idProblem.jpeg")
+            .signature(ObjectKey(System.currentTimeMillis()))
+            .into(imageProblem)
+
+
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getProblemById(idProblem)
+
 
         call.enqueue(object : retrofit2.Callback<Report> {
             override fun onResponse(call: Call<Report>, response: Response<Report>) {
@@ -181,7 +186,6 @@ class ReportDetails : AppCompatActivity() {
             }
 
         })
-
     }
 
     // this event will enable the back

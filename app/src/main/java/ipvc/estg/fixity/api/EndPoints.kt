@@ -59,4 +59,14 @@ interface EndPoints {
     //DELETE PROBLEM BY ID
     @DELETE("fixity/report/delete/{id}")
     fun deleteProblemById(@Path("id") id: String?): Call<OutputPost>
+
+    //UPDATE PROBLEM
+    @Multipart
+    @POST("fixity/report/update/{id}")
+    fun postEditProblem(
+        @Path("id") id: String?,
+        @Part("problem") problem: RequestBody,
+        @Part image: MultipartBody.Part?,
+        @Part("problemType") problemType: RequestBody,
+    ): Call<OutputPost>
 }
