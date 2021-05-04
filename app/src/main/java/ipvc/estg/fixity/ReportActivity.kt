@@ -41,7 +41,7 @@ ReportActivity : AppCompatActivity() {
     private var image: MultipartBody.Part? = null
     private var requestFile: RequestBody? = null
     private lateinit var imageView: ImageView
-    var selectedType: Int? = null
+    var selectedType: Int? = 1
     var longitude: Double? = null
     var latitude: Double? = null
     private var idUser: Int? = null
@@ -107,7 +107,7 @@ ReportActivity : AppCompatActivity() {
         imageView = findViewById(R.id.imageUpload)
         val txtProblem = findViewById<EditText>(R.id.addProblemReport)
 
-        //val spinner = findViewById<Spinner>(R.id.spinnerProblemType)
+
         val textField = findViewById<AutoCompleteTextView>(R.id.txtCategory)
         val problemTypes = resources.getStringArray(R.array.problemTypes)
 
@@ -215,12 +215,6 @@ ReportActivity : AppCompatActivity() {
 
                                     if (!op.status) {
                                         when (op.error) {
-                                            "type" -> Toast.makeText(
-                                                this@ReportActivity,
-                                                R.string.imageTypeError,
-                                                Toast.LENGTH_SHORT
-                                            )
-                                                .show()
                                             "upload" -> Toast.makeText(
                                                 this@ReportActivity,
                                                 R.string.error_uploading,

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,13 +14,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.squareup.picasso.Picasso
 import ipvc.estg.fixity.api.EndPoints
 import ipvc.estg.fixity.api.Report
 import ipvc.estg.fixity.api.ServiceBuilder
@@ -35,6 +38,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var reports: List<Report>
     private var userID: Int? = null
     private var problemID: String = ""
+    private var problemTimestamp: String = ""
     private lateinit var problemDesc: TextView
     private lateinit var problemCategory: TextView
     private lateinit var latLng: TextView
@@ -65,6 +69,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             R.anim.to_bottom_anim
         )
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +112,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         buttonReport.setOnClickListener {
-            //OPEN SOMETHING TO REPORT PROBLEM
+            //OPEN SCREEN TO REPORT PROBLEM
             val intentReport = Intent(
                 this@MapsActivity,
                 ReportActivity::class.java
@@ -122,11 +127,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //MOVE CAMERA TO VIANA DO CASTELO
         val viana = LatLng(41.6946, -8.83016)
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(viana))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(viana, 8f))
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         getPointsToMap()
     }
 
@@ -172,6 +177,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             6 -> {
                                 problemTypes = items[5].toString()
                             }
+
                         }
 
                         // Setting a custom info window adapter for the google map
@@ -184,6 +190,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             // Defines the contents of the InfoWindow
                             override fun getInfoContents(arg0: Marker): View {
                                 var v: View? = null
+
                                 try {
 
                                     // Getting view from the layout file info_window_layout
@@ -192,14 +199,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                                         null
                                     )
 
-                                    // Getting reference to the TextView to set latitude
                                     problemDesc =
                                         v!!.findViewById<View>(R.id.problemDesc) as TextView
                                     problemDesc.text = arg0.title
 
                                     problemCategory =
                                         v.findViewById<View>(R.id.problemCategory) as TextView
-                                    problemCategory.text = arg0.snippet
+                                    problemCategory.text = arg0.snippet.substringBefore(" -")
 
                                     latLng =
                                         v.findViewById<View>(R.id.latLngProblem) as TextView
@@ -210,10 +216,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                                     problemID = arg0.title.substringBefore(" -")
 
-                                    Picasso.get()
-                                        .load("https://fixity.pt/myslim/fixity/images/$problemID.jpeg")
-                                        .into(image, MarkerCallback(arg0));
+                                    problemTimestamp = arg0.snippet.substringAfter("- ")
 
+                                    Glide.with(this@MapsActivity)
+                                        .load("https://fixity.pt/myslim/fixity/images/$problemID.jpeg")
+                                        .signature(ObjectKey(problemTimestamp))
+                                        .into(image)
 
                                 } catch (ev: Exception) {
                                     print(ev.message)
@@ -236,12 +244,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             startActivity(intentDetails)
                         }
 
+                        mMap.setOnMarkerClickListener(OnMarkerClickListener { mark ->
+
+                            mark.showInfoWindow()
+
+                            val handler = Handler()
+                            handler.postDelayed(Runnable { mark.showInfoWindow() }, 400)
+
+                            true
+                        })
+
                         if (report.user_id == userID) {
 
                             mMap.addMarker(
                                 MarkerOptions().position(position)
                                     .title("" + report.id + " - " + report.problem).snippet(
-                                        problemTypes
+                                        "" + problemTypes + " - " + report.timestamp
                                     ).icon(
                                         BitmapDescriptorFactory.defaultMarker(
                                             BitmapDescriptorFactory.HUE_AZURE
@@ -282,10 +300,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 startActivity(intent)
                 return true
             }
-            R.id.accountAction -> {
-                Toast.makeText(applicationContext, "click on account", Toast.LENGTH_LONG).show()
-                return true
-            }
             R.id.logoutAction -> {
                 //CALL SHARED PREFERENCES FILE
                 val sharedPrefs: SharedPreferences =
@@ -304,40 +318,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 return true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    // Callback is an interface from Picasso:
-    internal class MarkerCallback(marker: Marker?) : Callback<Any?>, com.squareup.picasso.Callback {
-        var marker: Marker? = null
-
-        init {
-            this.marker = marker
-        }
-
-        override fun onSuccess() {
-            if (marker == null) {
-                return
-            }
-            if (!marker!!.isInfoWindowShown) {
-                return
-            }
-
-            // If Info Window is showing, then refresh it's contents:
-            marker!!.hideInfoWindow() // Calling only showInfoWindow() throws an error
-            marker!!.showInfoWindow()
-        }
-
-        override fun onError(e: java.lang.Exception?) {
-            TODO("Not yet implemented")
-        }
-
-        override fun onResponse(call: Call<Any?>, response: Response<Any?>) {
-            TODO("Not yet implemented")
-        }
-
-        override fun onFailure(call: Call<Any?>, t: Throwable) {
-            TODO("Not yet implemented")
         }
     }
 

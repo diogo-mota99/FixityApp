@@ -24,7 +24,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fixity">
-        <activity android:name=".ReportDetails"></activity>
+        <activity android:name=".UpdateProblemActivity"></activity>
+        <activity android:name=".ReportDetails" />
         <activity android:name=".ReportActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

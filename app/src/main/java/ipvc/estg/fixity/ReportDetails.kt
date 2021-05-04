@@ -1,5 +1,6 @@
 package ipvc.estg.fixity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -9,7 +10,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import ipvc.estg.fixity.api.EndPoints
 import ipvc.estg.fixity.api.OutputPost
 import ipvc.estg.fixity.api.Report
@@ -72,16 +74,20 @@ class ReportDetails : AppCompatActivity() {
         btnEdit = findViewById(R.id.btn_editProblem)
         btnRemove = findViewById(R.id.btn_deleteProblem)
 
-        //GET IMAGE FROM SERVER
-        Picasso.get().load("https://fixity.pt/myslim/fixity/images/$idProblem.jpeg")
-            .into(imageProblem);
-
         txtProblem.text = problemDesc
         txtCategory.text = problemCategory
         txtCoordinates.text = problemLatLng
 
+        //GET IMAGE FROM SERVER
+        Glide.with(this@ReportDetails)
+            .load("https://fixity.pt/myslim/fixity/images/$idProblem.jpeg")
+            .signature(ObjectKey(System.currentTimeMillis()))
+            .into(imageProblem)
+
+
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getProblemById(idProblem)
+
 
         call.enqueue(object : retrofit2.Callback<Report> {
             override fun onResponse(call: Call<Report>, response: Response<Report>) {
@@ -158,6 +164,18 @@ class ReportDetails : AppCompatActivity() {
                             builder.setMessage(R.string.delete_problem_confirmation)
                             builder.create().show()
                         }
+
+                        btnEdit.setOnClickListener {
+                            val intentEdit =
+                                Intent(this@ReportDetails, UpdateProblemActivity::class.java)
+                            intentEdit.putExtra(EXTRA_IDPROBLEM, idProblem)
+                            intentEdit.putExtra(EXTRA_PROBLEMDESC, problemDesc)
+                            intentEdit.putExtra(EXTRA_PROBLEMCATEGORY, problemCategory)
+                            intentEdit.putExtra(EXTRA_USERID, userLogado)
+                            intentEdit.putExtra(EXTRA_LATLNG, problemLatLng)
+                            startActivity(intentEdit)
+                            finish()
+                        }
                     }
                 }
             }
@@ -168,7 +186,6 @@ class ReportDetails : AppCompatActivity() {
             }
 
         })
-
     }
 
     // this event will enable the back
@@ -186,5 +203,13 @@ class ReportDetails : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
+    }
+
+    companion object {
+        const val EXTRA_IDPROBLEM = "com.estg.fixity.messages.IDPROBLEM"
+        const val EXTRA_PROBLEMDESC = "com.estg.fixity.messages.PROBLEMDESC"
+        const val EXTRA_PROBLEMCATEGORY = "com.estg.fixity.messages.PROBLEMCATEGORY"
+        const val EXTRA_USERID = "com.estg.fixity.messages.USERID"
+        const val EXTRA_LATLNG = "com.estg.fixity.messages.LATLNG"
     }
 }

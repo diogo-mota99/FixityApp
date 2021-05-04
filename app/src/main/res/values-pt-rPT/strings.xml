@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="welcome" translatable="false">Bem-vindo!</string>
+    <string name="welcome" translatable="false">Bem-vindo</string>
     <string name="username">Nome de utilizador</string>
     <string name="register_now"><u>Registar agora!</u></string>
     <string name="don_t_have_an_account">Não possui uma conta?</string>
@@ -51,7 +51,6 @@
     <string name="enter_problem_here">Insira o problema aqui</string>
     <string name="photo_required">A foto é obrigatória!</string>
     <string name="problem_required">Problema obrigatório!</string>
-    <string name="imageTypeError">Apenas são permitidos ficheiros JPG, JPEG e PNG!></string>
     <string name="error_uploading">Erro ao fazer upload!</string>
     <string name="size_error">Imagem demasiado grande! Tamanho máximo: 16Mb!</string>
     <string name="error_updating">Erro ao reportar problema ou atualizar URL!</string>
@@ -66,5 +65,9 @@
     <string name="category">Categoria</string>
     <string name="problem">Problema</string>
     <string name="delete_problem_confirmation">Deseja eliminar este problema?</string>
+    <string name="edit_problem_title">Editar Problema</string>
+    <string name="error_updating_data">Erro ao atualizar os dados!</string>
+    <string name="data_updated_sucess">Dados atualizados com sucesso!</string>
+    <string name="nothing_changed">Nenhum valor foi alterado!</string>
 
 </resources>
