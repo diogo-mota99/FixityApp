@@ -291,23 +291,6 @@ class UpdateProblemActivity : AppCompatActivity() {
 
                     if (!op.status) {
                         when (op.error) {
-                            "upload" -> Toast.makeText(
-                                this@UpdateProblemActivity,
-                                R.string.error_uploading,
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            "size" -> Toast.makeText(
-                                this@UpdateProblemActivity,
-                                R.string.size_error,
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            "uploading" -> Toast.makeText(
-                                this@UpdateProblemActivity,
-                                R.string.error_uploading,
-                                Toast.LENGTH_SHORT
-                            ).show()
                             "data" -> Toast.makeText(
                                 this@UpdateProblemActivity,
                                 R.string.error_updating_data,
@@ -316,6 +299,9 @@ class UpdateProblemActivity : AppCompatActivity() {
                                 .show()
                             "404" -> Toast.makeText(this@UpdateProblemActivity,
                                 R.string.problemNotFound,
+                                Toast.LENGTH_SHORT).show()
+                            "empty" -> Toast.makeText(this@UpdateProblemActivity,
+                                R.string.empty_fields,
                                 Toast.LENGTH_SHORT).show()
                         }
                     } else {

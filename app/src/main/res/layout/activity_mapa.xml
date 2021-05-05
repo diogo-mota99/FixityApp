@@ -38,25 +38,32 @@
         android:clickable="true"
         android:contentDescription="@string/menuMap"
         android:focusable="true"
-        android:src="@drawable/ic_baseline_add_24"
         app:backgroundTint="#f9ac16"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_add_24" />
 
-    <TextView
-        android:id="@+id/labelReportProblem"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardReportProblem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:layout_marginRight="5dp"
-        android:background="@color/white"
-        android:elevation="2dp"
-        android:text="@string/report_problem"
-        android:textColor="@android:color/black"
         android:visibility="invisible"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/button_reportProblem"
         app:layout_constraintEnd_toStartOf="@+id/button_reportProblem"
-        app:layout_constraintTop_toTopOf="@+id/button_reportProblem" />
+        app:layout_constraintTop_toTopOf="@+id/button_reportProblem">
+
+        <TextView
+            android:id="@+id/labelReportProblem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/report_problem"
+            android:textColor="@android:color/black" />
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_reportProblem"
@@ -66,10 +73,146 @@
         android:clickable="true"
         android:contentDescription="@string/report_problem"
         android:focusable="true"
-        android:src="@drawable/ic_baseline_report_24"
         android:visibility="invisible"
         app:backgroundTint="#FACD75"
         app:layout_constraintBottom_toTopOf="@+id/button_menuMap"
-        app:layout_constraintEnd_toEndOf="@+id/button_menuMap" />
+        app:layout_constraintEnd_toEndOf="@+id/button_menuMap"
+        app:srcCompat="@drawable/ic_baseline_report_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_filterProblem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:contentDescription="@string/filter_problem"
+        android:focusable="true"
+        android:visibility="invisible"
+        app:backgroundTint="#FACD75"
+        app:layout_constraintBottom_toTopOf="@+id/button_reportProblem"
+        app:layout_constraintEnd_toEndOf="@+id/button_reportProblem"
+        app:srcCompat="@drawable/ic_baseline_filter_alt_24" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardFilterProblem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:visibility="invisible"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/button_filterProblem"
+        app:layout_constraintEnd_toStartOf="@+id/button_filterProblem"
+        app:layout_constraintTop_toTopOf="@+id/button_filterProblem">
+
+        <TextView
+            android:id="@+id/labelFilterProblem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:text="@string/filter_problem"
+            android:textColor="@android:color/black" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:visibility="visible"
+        app:cardBackgroundColor="#66000000"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/radius"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/radius"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/closeFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_cancel_24" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/radiusSlider"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:stepSize="10.0"
+                android:valueFrom="0.0"
+                android:valueTo="100000.0"
+                app:labelBehavior="withinBounds" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:text="@string/category"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerCategory"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginTop="5dp" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
