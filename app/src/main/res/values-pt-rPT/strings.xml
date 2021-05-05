@@ -69,5 +69,8 @@
     <string name="error_updating_data">Erro ao atualizar os dados!</string>
     <string name="data_updated_sucess">Dados atualizados com sucesso!</string>
     <string name="nothing_changed">Nenhum valor foi alterado!</string>
+    <string name="filter_problem">Filtrar Problemas</string>
+    <string name="radius">Raio</string>
+    <string name="disable">Desativar Filtro</string>
 
 </resources>

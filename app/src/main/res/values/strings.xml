@@ -85,4 +85,7 @@
     <string name="error_updating_data">Error updating data!</string>
     <string name="data_updated_sucess">Data updated successfully!</string>
     <string name="nothing_changed">No value has been changed!</string>
+    <string name="filter_problem">Filter Problems</string>
+    <string name="radius">Radius</string>
+    <string name="disable">Disable Filter</string>
 </resources>
