@@ -15,24 +15,27 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.slider.Slider
+import ipvc.estg.fixity.adapters.CategoryAdapter
+import ipvc.estg.fixity.api.Category
 import ipvc.estg.fixity.api.EndPoints
 import ipvc.estg.fixity.api.Report
 import ipvc.estg.fixity.api.ServiceBuilder
@@ -42,7 +45,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CategoryAdapter.CategoryRecycler {
 
     private lateinit var mMap: GoogleMap
     private lateinit var reports: List<Report>
@@ -53,11 +56,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var problemCategory: TextView
     private lateinit var latLng: TextView
     private lateinit var image: ImageView
-    private lateinit var userLocation: LatLng
+    private var userLocation: LatLng? = null
     private lateinit var radiusSlider: Slider
     private var radius: Float? = 0f
     private var circle: Circle? = null
     private lateinit var listView: RecyclerView
+    private var filterCategory: ArrayList<Int> = ArrayList()
+    private var filterDis = false
+    private var filterCat = false
 
     //LOCATION
     private lateinit var locationRequest: LocationRequest
@@ -128,6 +134,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val iconClose = findViewById<ImageView>(R.id.closeFilter)
         val radiusMeters = findViewById<TextView>(R.id.radius)
 
+        //CHECKBOX DISABLE DISTANCE FILTER
+        val chkDisable = findViewById<CheckBox>(R.id.checkDisable)
 
         //RADIUS SLIDER
         radiusSlider = findViewById(R.id.radiusSlider)
@@ -149,11 +157,41 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             override fun onStopTrackingTouch(slider: Slider) {
-
-                getPointsToMap(true, userLocation)
+                getPointsToMap(filterDis, filterCat, userLocation)
             }
 
         })
+
+        //RECYCLERVIEW
+        listView = findViewById(R.id.recyclerCategory)
+        listView.setHasFixedSize(true)
+        listView.layoutManager = LinearLayoutManager(applicationContext)
+
+        val problemTypes = resources.getStringArray(R.array.problemTypes)
+        val list: ArrayList<Category> = ArrayList()
+
+        for (categories in problemTypes) {
+            val category = Category(categories, false)
+            list.add(category)
+        }
+
+        val adapter = CategoryAdapter(this, this)
+        listView.adapter = adapter
+
+        adapter.setCategory(list)
+
+        chkDisable.setOnClickListener {
+            if (chkDisable.isChecked) {
+                radiusSlider.visibility = View.INVISIBLE
+                filterDis = false
+                filterCat = filterCategory.size > 0
+            } else {
+                radiusSlider.visibility = View.VISIBLE
+                filterDis = true
+                filterCat = filterCategory.size > 0
+            }
+            getPointsToMap(filterDis, filterCat, userLocation)
+        }
 
 
         //FAB BUTTONS SET ON CLICK LISTENER
@@ -204,15 +242,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             radiusSlider.value = 0.0f
             radiusMeters.text = (radius!! / 1000).toString().plus(" km")
 
+            filterDis = true
+
+            //CALL MAPS POINTS WITH INITIAL FILTER
+            getPointsToMap(filterDis, filterCat, userLocation)
+
+            buttonFilter.isClickable = false
+
         }
 
         iconClose.setOnClickListener {
             //HIDE FILTER POPUP
             cardFilter.visibility = View.INVISIBLE
             circle?.remove()
+            chkDisable.isChecked = false
+            filterCategory.clear()
+            adapter.resetCheckbox(true)
 
             //CALL ALL MAP MARKERS AGAIN
-            getPointsToMap(false, null)
+            getPointsToMap(false, false, null)
         }
     }
 
@@ -239,7 +287,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(
                 this@MapsActivity,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
@@ -265,11 +313,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-        getPointsToMap(false, null)
+        getPointsToMap(filterDistance = false, filterCategoryMap = false, userLastLocation = null)
         startLocationUpdates()
     }
 
-    private fun getPointsToMap(haveFilter: Boolean, userLastLocation: LatLng?) {
+    private fun getPointsToMap(
+        filterDistance: Boolean,
+        filterCategoryMap: Boolean,
+        userLastLocation: LatLng?,
+    ) {
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getCoordinates()
         var position: LatLng
@@ -364,7 +416,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             }
                         })
 
-                        mMap.setOnInfoWindowClickListener() {
+                        mMap.setOnInfoWindowClickListener {
                             val intentDetails = Intent(this@MapsActivity, ReportDetails::class.java)
                             intentDetails.putExtra(EXTRA_IDUSERLOGIN, userID)
                             intentDetails.putExtra(EXTRA_PROBLEMID, problemID)
@@ -378,17 +430,58 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             startActivity(intentDetails)
                         }
 
-                        mMap.setOnMarkerClickListener(OnMarkerClickListener { mark ->
+                        mMap.setOnMarkerClickListener { mark ->
 
                             mark.showInfoWindow()
 
                             val handler = Handler()
-                            handler.postDelayed(Runnable { mark.showInfoWindow() }, 400)
+                            handler.postDelayed({ mark.showInfoWindow() }, 400)
 
                             true
-                        })
+                        }
 
-                        if (haveFilter) {
+                        if (filterCategoryMap && filterDistance) {
+                            //CIRCLE OPTIONS
+                            val circleOpt: CircleOptions =
+                                CircleOptions().center(userLocation)
+                                    .radius(radius?.toDouble()!!) //IN METERS
+                            //DRAW CIRCLE ON MAP
+                            circle = mMap.addCircle(circleOpt)
+                            circle?.strokeColor = Color.RED
+                            circle?.fillColor = Color.parseColor("#2087CEFA")
+
+                            for (cat in filterCategory) {
+                                if (calculateDistance(userLastLocation!!.latitude,
+                                        userLastLocation.longitude,
+                                        report.latitude,
+                                        report.longitude) <= radius!! && cat == report.problemType
+                                ) {
+                                    if (report.user_id == userID) {
+
+
+                                        mMap.addMarker(
+                                            MarkerOptions().position(position)
+                                                .title("" + report.id + " - " + report.problem)
+                                                .snippet(
+                                                    "" + problemTypes + " - " + report.timestamp
+                                                ).icon(
+                                                    BitmapDescriptorFactory.defaultMarker(
+                                                        BitmapDescriptorFactory.HUE_AZURE
+                                                    )
+                                                )
+                                        )
+                                    } else {
+                                        mMap.addMarker(
+                                            MarkerOptions().position(position)
+                                                .title("" + report.id + " - " + report.problem)
+                                                .snippet(
+                                                    problemTypes
+                                                )
+                                        )
+                                    }
+                                }
+                            }
+                        } else if (filterDistance) {
 
                             //CIRCLE OPTIONS
                             val circleOpt: CircleOptions =
@@ -428,13 +521,42 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                                     )
                                 }
                             }
+                        } else if (filterCategoryMap) {
+                            for (cat in filterCategory) {
+                                if (cat == report.problemType) {
+                                    if (report.user_id == userID) {
+
+
+                                        mMap.addMarker(
+                                            MarkerOptions().position(position)
+                                                .title("" + report.id + " - " + report.problem)
+                                                .snippet(
+                                                    "" + problemTypes + " - " + report.timestamp
+                                                ).icon(
+                                                    BitmapDescriptorFactory.defaultMarker(
+                                                        BitmapDescriptorFactory.HUE_AZURE
+                                                    )
+                                                )
+                                        )
+                                    } else {
+                                        mMap.addMarker(
+                                            MarkerOptions().position(position)
+                                                .title("" + report.id + " - " + report.problem)
+                                                .snippet(
+                                                    problemTypes
+                                                )
+                                        )
+                                    }
+                                }
+                            }
                         } else {
                             if (report.user_id == userID) {
 
 
                                 mMap.addMarker(
                                     MarkerOptions().position(position)
-                                        .title("" + report.id + " - " + report.problem).snippet(
+                                        .title("" + report.id + " - " + report.problem)
+                                        .snippet(
                                             "" + problemTypes + " - " + report.timestamp
                                         ).icon(
                                             BitmapDescriptorFactory.defaultMarker(
@@ -445,7 +567,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             } else {
                                 mMap.addMarker(
                                     MarkerOptions().position(position)
-                                        .title("" + report.id + " - " + report.problem).snippet(
+                                        .title("" + report.id + " - " + report.problem)
+                                        .snippet(
                                             problemTypes
                                         )
                                 )
@@ -507,6 +630,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
 
 
+    }
+
+    override fun updateCategoryFilter(category: ArrayList<Int>) {
+        filterCategory = category
+        filterCat = filterCategory.size > 0
+        getPointsToMap(filterDis, filterCat, userLocation)
     }
 
 }

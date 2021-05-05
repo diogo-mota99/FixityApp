@@ -123,7 +123,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginRight="5dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:cardBackgroundColor="#66000000"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -186,6 +186,13 @@
                     app:srcCompat="@drawable/ic_baseline_cancel_24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <CheckBox
+                android:id="@+id/checkDisable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/disable"
+                android:textSize="13sp"/>
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/radiusSlider"

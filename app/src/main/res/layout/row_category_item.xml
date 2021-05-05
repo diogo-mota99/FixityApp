@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
+        android:gravity="center_vertical"
         android:padding="10dp">
 
 
@@ -23,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:layout_toStartOf="@id/checkCategory"
             android:layout_toLeftOf="@id/checkCategory"
             android:background="@color/white"
@@ -30,7 +32,7 @@
             android:maxLines="1"
             android:text="@string/category"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
         <CheckBox
