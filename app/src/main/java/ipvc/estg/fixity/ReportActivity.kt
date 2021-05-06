@@ -41,7 +41,7 @@ ReportActivity : AppCompatActivity() {
     private var image: MultipartBody.Part? = null
     private var requestFile: RequestBody? = null
     private lateinit var imageView: ImageView
-    var selectedType: Int? = 1
+    private var selectedType: Int? = 1
     var longitude: Double? = null
     var latitude: Double? = null
     private var idUser: Int? = null
@@ -273,7 +273,7 @@ ReportActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this@ReportActivity,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                Companion.LOCATION_PERMISSION_REQUEST_CODE
+                LOCATION_PERMISSION_REQUEST_CODE
             )
             return
         }

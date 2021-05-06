@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UpdateProblemActivity">
+    tools:context=".RegisterActivity">
 
     <include
         android:id="@+id/include"
@@ -13,66 +13,70 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_above="@+id/button_editProblem"
+        android:layout_above="@+id/button_cancelAddProblem"
         android:layout_below="@+id/include"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
+
         <ImageView
-            android:id="@+id/imageUploadEdit"
-            android:layout_width="fill_parent"
-            android:layout_height="250dp"
+            android:id="@+id/imageUpload"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:contentDescription="@string/uploadPhoto"
             android:foregroundGravity="center"
             app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_uploadFromCamEdit"
+            android:id="@+id/btn_uploadFromCam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageUploadEdit"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/imageUpload"
+            android:layout_toRightOf="@+id/imageUpload"
             android:fontFamily="@font/comfortaa_bold"
             android:text="@string/upload_from_cam"
             android:textColor="#fff"
             android:textSize="18sp"
             app:backgroundTint="#f9ac16"
             app:cornerRadius="30dp"
-            app:drawableTint="@color/myBlack" />
+            app:drawableTint="@color/myBlack"
+            android:layout_marginStart="5dp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_uploadFromGalleryEdit"
+            android:id="@+id/btn_uploadFromGallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_uploadFromCamEdit"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/btn_uploadFromCam"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/imageUpload"
+            android:layout_toRightOf="@+id/imageUpload"
             android:fontFamily="@font/comfortaa_bold"
             android:text="@string/upload_from_gallery"
             android:textColor="#fff"
             android:textSize="18sp"
             app:backgroundTint="#f9ac16"
             app:cornerRadius="30dp"
-            app:drawableTint="@color/myBlack" />
+            app:drawableTint="@color/myBlack"
+            android:layout_marginStart="5dp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/spinnerProblemTypeEdit"
+            android:id="@+id/spinnerProblemType"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_uploadFromGalleryEdit"
+            android:layout_below="@+id/btn_uploadFromGallery"
+            android:layout_toEndOf="@+id/imageUpload"
+            android:layout_toRightOf="@+id/imageUpload"
             android:fontFamily="@font/comfortaa_bold"
             android:hint="@string/select_category"
             android:inputType="textMultiLine"
@@ -90,7 +94,8 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <AutoCompleteTextView
-                android:id="@+id/txtCategoryEdit"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/txtCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -100,12 +105,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/reportProblemTextEdit"
+            android:id="@+id/reportProblemText"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginLeft="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/spinnerProblemTypeEdit"
+            android:layout_below="@+id/spinnerProblemType"
             android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/imageUpload"
+            android:layout_toRightOf="@+id/imageUpload"
             android:fontFamily="@font/comfortaa_bold"
             android:hint="@string/enter_problem_here"
             android:inputType="textMultiLine"
@@ -118,10 +126,11 @@
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
             app:boxStrokeColor="@color/myBlack"
-            app:hintTextColor="@color/myBlack">
+            app:hintTextColor="@color/myBlack"
+            android:layout_marginStart="5dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/addProblemReportEdit"
+                android:id="@+id/addProblemReport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="250dp"
@@ -132,7 +141,7 @@
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_editProblem"
+        android:id="@+id/button_addProblem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -145,13 +154,13 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/add_problem"
-        app:srcCompat="@drawable/ic_baseline_save_24"
         app:backgroundTint="#f9ac16"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_save_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_cancelEditProblem"
+        android:id="@+id/button_cancelAddProblem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -164,9 +173,9 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/cancel_report"
-        app:srcCompat="@drawable/ic_baseline_cancel_24"
         app:backgroundTint="#f9ac16"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_baseline_cancel_24" />
 
 </RelativeLayout>
